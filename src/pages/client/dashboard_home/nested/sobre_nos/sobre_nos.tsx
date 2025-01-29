@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import fundo from "/images/fundo_sobre_nos.jpeg";
 import desenho1 from "/images/desenho1.jpeg";
 import desenho2 from "/images/desenho2.jpeg";
@@ -6,70 +6,77 @@ import desenho3 from "/images/desenho3.jpeg";
 
 const AboutUs: React.FC = () => {
   return (
-    <div className="bg-white">
-      {/* Fundo da página com slogans sobre ele */}
-      <div className="relative">
-        <img src={fundo} alt="Fundo" className="w-full h-[600px] object-cover" /> {/* Imagem maior */}
-        <div className="absolute inset-0 bg-black opacity-40"></div> {/* Sobreposição escura */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white px-4">
-          <h1 className="text-5xl font-bold">Transformando o futuro da tecnologia</h1> {/* Slogan maior */}
-          <p className="text-lg mt-4 max-w-3xl mx-auto">
-            Inovação e qualidade ao seu alcance. Nós impulsionamos o sucesso da sua empresa com soluções
-            tecnológicas avançadas.
+    <div className="bg-gray-50 text-gray-800">
+      {/* Hero Section */}
+      <div className="relative w-full h-[600px] lg:h-[700px]">
+        <img src={fundo} alt="Fundo" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
+          <h1 className="text-5xl lg:text-6xl font-bold text-white drop-shadow-lg">
+            Conectando o futuro com inovação
+          </h1>
+          <p className="text-lg lg:text-xl text-gray-200 max-w-2xl mt-4 drop-shadow-md">
+            Implementamos tecnologia de ponta para revolucionar as telecomunicações, com atendimento humanizado e soluções 5G MVNO.
           </p>
         </div>
       </div>
 
-      {/* Conteúdo principal */}
-      <div className="max-w-screen-xl mx-auto px-4 py-8">
+      {/* Content Section */}
+      <div className="w-full px-12 py-16 space-y-16">
         {/* Missão */}
-        <section className="mb-16 flex flex-col sm:flex-row items-center sm:items-start gap-8">
-          <div className="flex-1">
-            <h2 className="text-3xl font-semibold mb-4">Missão</h2>
-            <p className="text-lg">
-              Nossa missão é fornecer aos nossos clientes as melhores soluções, mantendo o foco na inovação e
-              na sustentabilidade. Estamos empenhados em melhorar a vida das pessoas e das empresas com soluções
-              práticas e acessíveis.
-            </p>
-          </div>
-          <div className="flex-1">
-            <img src={desenho1} alt="Desenho 1" className="w-50 h-50 object-cover mb-4" />
-          </div>
-        </section>
+        <Section 
+          title="Nossa Missão"
+          description="Facilitar a conectividade por meio de soluções inovadoras, promovendo um acesso eficiente, acessível e de alta qualidade à tecnologia 5G para empresas e consumidores."
+          image={desenho1}
+          reverse={false}
+        />
 
         {/* Visão */}
-        <section className="mb-16 flex flex-col sm:flex-row items-center sm:items-start gap-8">
-          <div className="flex-1">
-            <h2 className="text-3xl font-semibold mb-4">Visão</h2>
-            <p className="text-lg">
-              Ser reconhecido como líder no setor de soluções tecnológicas, oferecendo um portfólio de produtos
-              e serviços que atendam às necessidades do mercado global, sempre com foco na qualidade e no atendimento
-              excepcional ao cliente.
-            </p>
-          </div>
-          <div className="flex-1">
-            <img src={desenho2} alt="Desenho 2" className="w-50 h-50 object-cover mb-4" />
-          </div>
-        </section>
+        <Section 
+          title="Nossa Visão"
+          description="Ser a principal referência no mercado de telecomunicações como uma operadora digital MVNO de alta performance, conectando pessoas e negócios com agilidade e confiabilidade."
+          image={desenho2}
+          reverse={true}
+        />
 
         {/* Valores */}
-        <section className="mb-16 flex flex-col sm:flex-row items-center sm:items-start gap-8">
-          <div className="flex-1">
-            <h2 className="text-3xl font-semibold mb-4">Valores</h2>
-            <ul className="list-disc pl-6 text-lg">
-              <li>Inovação constante.</li>
-              <li>Comprometimento com a qualidade.</li>
-              <li>Transparência e ética em todos os negócios.</li>
-              <li>Respeito ao meio ambiente e à sustentabilidade.</li>
-              <li>Valorização de nossa equipe e de nossos clientes.</li>
+        <Section 
+          title="Nossos Valores"
+          description={
+            <ul className="list-disc pl-5 text-lg leading-relaxed text-gray-700">
+              <li><span className="font-semibold text-gray-900">Inovação Contínua:</span> Buscamos sempre novas tecnologias para entregar o melhor serviço.</li>
+              <li><span className="font-semibold text-gray-900">Excelência no Atendimento:</span> Nosso compromisso é garantir suporte humanizado e próximo aos clientes.</li>
+              <li><span className="font-semibold text-gray-900">Conectividade Acessível:</span> Democratizamos o acesso à internet de alta velocidade para todos.</li>
+              <li><span className="font-semibold text-gray-900">Transparência e Ética:</span> Construímos relações de confiança com nossos parceiros e clientes.</li>
+              <li><span className="font-semibold text-gray-900">Sustentabilidade e Impacto Social:</span> Utilizamos tecnologia de forma consciente, promovendo inclusão digital e redução de impactos ambientais.</li>
             </ul>
-          </div>
-          <div className="flex-1">
-            <img src={desenho3} alt="Desenho 3" className="w-50 h-50 object-cover mb-4" />
-          </div>
-        </section>
+          }
+          image={desenho3}
+          reverse={false}
+        />
       </div>
     </div>
+  );
+};
+
+interface SectionProps {
+  title: string;
+  description: React.ReactNode;
+  image: string;
+  reverse: boolean;
+}
+
+const Section: React.FC<SectionProps> = ({ title, description, image, reverse }) => {
+  return (
+    <section className={`flex ${reverse ? "md:flex-row-reverse" : "md:flex-row"} items-center w-full h-[480px] md:h-[550px] gap-12 md:gap-20 p-6`}> 
+      <div className="w-[48%] text-left">
+        <h2 className="text-5xl font-semibold text-gray-900 mb-6">{title}</h2>
+        <p className="text-xl leading-relaxed text-gray-700">{description}</p>
+      </div>
+      <div className="w-[48%] h-[90%]">
+        <img src={image} alt={title} className="w-full h-full object-cover rounded-lg shadow-md" />
+      </div>
+    </section>
   );
 };
 
