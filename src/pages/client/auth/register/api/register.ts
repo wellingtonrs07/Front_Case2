@@ -1,11 +1,15 @@
 import { config } from "@/config/config";
 
 export async function registerRequest(formData: {
-  name: string;
-  email: string;
-  password: string;
-  cpf: string;
-  phone: string;
+    name: string,
+    email: string,
+    password: string,
+    cpf: string, // Adicionando cpf ao estado
+    phone: string,
+    birth_date: string, // Alterando para string no formato 'YYYY-MM-DD'
+    city: string,
+    cep: string,
+    street_number: string,
 }): Promise<Response> {
   let { apiBaseUrl } = config;
   let requestRoute = '/client/auth/register';

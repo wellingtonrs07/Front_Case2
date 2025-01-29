@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getPromotionsRequest } from '@/pages/client/dashboard/nested/promocoes/api/promocoes'; // Função para pegar as promoções
+import { getPromotionsRequest } from '@/pages/client/dashboard_home/nested/promocoes/api/promocoes'; // Função para pegar as promoções
 import fundo from "/images/fundo_sobre_nos.jpeg"; // Imagem de fundo para a seção
 
 // Define o tipo da promoção

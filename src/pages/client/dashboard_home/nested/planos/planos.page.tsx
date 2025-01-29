@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getPlansRequest } from '@/pages/client/dashboard/nested/planos/api/planos';
+import { getPlansRequest } from '@/pages/client/dashboard_home/nested/planos/api/planos';
 import publicidade from "/images/publicidade.jpeg"; // Imagem para os planos
 
 // Define o tipo do plano

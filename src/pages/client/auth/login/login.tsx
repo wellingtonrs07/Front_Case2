@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom'; 
 import { Envelope, Lock } from '@phosphor-icons/react'; // Importando ícones
 import fundo from "/images/fundo_login.png";
+import { Link } from 'react-router-dom'; 
 
 export const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -90,8 +91,10 @@ export const Login = () => {
             <a href="#" className="text-sm text-blue-500 hover:underline">Trocar Senha</a>
           </div>
           <div className="text-center mt-2">
-            <a href="#" className="text-sm text-blue-500 hover:underline">Não tem uma conta? Crie</a>
-          </div>
+            <Link to="/client/auth/register" className="text-sm text-blue-500 hover:underline">
+                Não tem uma conta? Crie
+            </Link>
+            </div>
         </div>
       </div>
     </div>

@@ -1,9 +1,10 @@
 import { redirect, RouteObject } from 'react-router-dom';
-import { Dashboard } from './client/dashboard/dashboard.tsx';
-import { PlansList } from './client/dashboard/nested/planos/planos.page.tsx';
-import AboutUs from "./client/dashboard/nested/sobre_nos/sobre_nos.tsx"
+import { Dashboard } from './client/dashboard_home/dashboard_home.tsx';
+import { PlansList } from './client/dashboard_home/nested/planos/planos.page.tsx';
+import AboutUs from "./client/dashboard_home/nested/sobre_nos/sobre_nos.tsx"
 import {Login} from "./client/auth/login/login.tsx"
 import { checkToken } from './client/auth/token/api/CheckToken.ts';
+import {Register} from './client/auth/register/register.tsx'
 
 const routes: RouteObject[] = [
     {
@@ -11,16 +12,21 @@ const routes: RouteObject[] = [
         loader: async () => {
           try {
             await checkToken(); 
-            return redirect('/user/dashboard'); 
+            return redirect('/client/dashboard'); 
           } catch (error) {
-            return redirect('/user/auth/login'); 
+            return redirect('/client/auth/login'); 
           }
         },
       },
       {
-        path: "user/auth/login",
+        path: "client/auth/login",
         element: <Login />,
         id: "login",
+      },
+      {
+        path: "client/auth/register",
+        element: <Register />,
+        id: "register",
       },
     {
         path: "client/dashboard",
@@ -31,7 +37,7 @@ const routes: RouteObject[] = [
               await checkToken();
               return null;
             } catch (error) {
-              return redirect('/user/auth/login');
+              return redirect('/client/auth/login');
             }
           },
         children: [
