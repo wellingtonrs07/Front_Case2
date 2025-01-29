@@ -6,7 +6,7 @@ import { Envelope, Lock } from '@phosphor-icons/react'; // Importando ícones
 import fundo from "/images/fundo_login.png";
 import { Link } from 'react-router-dom'; 
 
-export const ClientLogin = () => {
+export const DirectorLogin = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState(''); // Estado para o erro
   const navigate = useNavigate(); 
@@ -24,7 +24,7 @@ export const ClientLogin = () => {
     setError(''); // Limpar qualquer erro anterior
     try {
       await login(credentials.email, credentials.password); 
-      navigate('/client/dashboard'); 
+      navigate('/director/dashboard'); 
     } catch (error) {
       setError('Erro no login. Por favor, verifique suas credenciais.'); // Definir a mensagem de erro
       toast.error('Erro no login. Por favor, verifique suas credenciais.');
@@ -39,7 +39,7 @@ export const ClientLogin = () => {
       {/* Div do formulário */}
       <div className="w-full md:w-1/3 flex items-center justify-center min-w-0 border-l-4 md:border-l-0 border-blue-500">
         <div className="w-11/12 md:w-96 p-6">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Olá Cliente!</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Olá!</h1>
           <p className="mb-8 text-lg">Bem vindo!</p>
           
           {/* Mensagem de erro */}
@@ -88,12 +88,8 @@ export const ClientLogin = () => {
             </button>
           </form>
           <div className="text-center mt-4">
-            <a href="#" className="text-sm text-blue-500 hover:underline">Trocar Senha</a>
           </div>
           <div className="text-center mt-2">
-            <Link to="/client/auth/register" className="text-sm text-blue-500 hover:underline">
-                Não tem uma conta? Crie
-            </Link>
             </div>
         </div>
       </div>

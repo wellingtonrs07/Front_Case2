@@ -1,23 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/header';
 import styled from 'styled-components';
-import MainPage from './nested/mainpage';
-import AboutUs from './nested/sobre_nos/sobre_nos';
-import EditClientAddress from './nested/compra/confirmar_dados/confirmar_dados'
+import EditClientAddress from './nested/confirmar_dados/confirmar_dados.tsx'
 
-export const Dashboard = () => {
+export const Dashboard_Compra = () => {
     return (
         <DashboardStyles>
             <Header />
             <main>
                 <Routes>
-                    <Route path="planos" element={<MainPage />} />
-                </Routes>
-                <Routes>
-                    <Route path="sobre-nos" element={<AboutUs />} />
-                </Routes>
-                <Routes>
-                    <Route path="compra/confirmar-dados" element={<EditClientAddress />} />
+                    <Route path="confirmar-dados" element={<EditClientAddress />} />
                 </Routes>
             </main>
         </DashboardStyles>
