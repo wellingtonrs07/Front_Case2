@@ -1,78 +1,110 @@
-import React, { useEffect, useState } from 'react';
-import { getPromotionsRequest } from '@/pages/client/dashboard_home/nested/promocoes/api/promocoes'; // Função para pegar as promoções
-import fundo from "/images/fundo_sobre_nos.jpeg"; // Imagem de fundo para a seção
+import React, { useEffect, useState } from "react";
+import { getPromotionsRequest } from "@/pages/client/dashboard_home/nested/promocoes/api/promocoes";
+import fundo from "/images/fundo_novo.png"; // Imagem de fundo
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// Define o tipo da promoção
 type Promotion = {
-    description: string;
-    plan: string[]; // Lista de planos como strings
-    price: number; // Preço como número (float)
+  description: string;
+  plan: string[];
+  price: number;
+  discount: string;
+  image?: string;
 };
 
 export const PromotionsList: React.FC = () => {
-    const [promotions, setPromotions] = useState<Promotion[]>([]); // Estado com o tipo Promotion[]
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const fetchPromotions = async () => {
-            try {
-                const route = '/client/get-promotion'; // Rota para pegar as promoções
-                const data: Promotion[] = await getPromotionsRequest<Promotion[]>(route); // Tipagem explícita
-                setPromotions(data); // Atualiza o estado com as promoções
-            } catch (err) {
-                setError('Failed to load promotions.');
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const fetchPromotions = async () => {
+      try {
+        const route = "/client/get-promotion";
+        const data: Promotion[] = await getPromotionsRequest<Promotion[]>(route);
+        setPromotions(data);
+      } catch (err) {
+        setError("Falha ao carregar promoções.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        fetchPromotions();
-    }, []);
+    fetchPromotions();
+  }, []);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
-
+  if (loading)
     return (
-        <div>
-            {/* Imagem de fundo para a seção inteira, agora com w-full */}
-            <div
-                className="relative w-full h-[600px] bg-cover bg-center mt-12"
-                style={{ backgroundImage: `url(${fundo})` }}
-            >
-                <div className="absolute inset-0 bg-black opacity-40"></div> {/* Sobreposição escura */}
-
-                {/* Conteúdo das promoções agora ocupa toda a largura com w-full */}
-                <div className="absolute w-full mx-auto px-4 py-8 relative z-10">
-                    <div className="flex flex-wrap gap-6 justify-center">
-                        {promotions.map((promotion, index) => (
-                            <div
-                                key={index}
-                                className="relative bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 p-8 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 max-w-xs w-full"
-                            >
-                                {/* Cartão com fundo azul */}
-                                <div className="relative z-10 text-white">
-                                    <h2 className="text-xl font-semibold mb-4">{promotion.description}</h2>
-                                    <div className="mb-4">
-                                        <h3 className="text-lg font-semibold">Planos:</h3>
-                                        <p>{promotion.plan.join(', ')}</p>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold">Preço:</h3>
-                                        <p className="text-2xl font-bold">R${promotion.price.toFixed(2)}/mês</p>
-                                    </div>
-                                    <button className="mt-4 px-6 py-2 bg-white text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300">
-                                        Adquirir
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto">
+        {[...Array(3)].map((_, i) => (
+          <Skeleton key={i} className="w-full h-[400px] rounded-xl" />
+        ))}
+      </div>
     );
+
+  if (error) return <p className="text-center text-red-500">{error}</p>;
+
+  return (
+    <div
+      className="w-screen min-h-screen flex flex-col items-center justify-center px-4 relative"
+      style={{
+        backgroundImage: `url(${fundo})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Título dentro da imagem de fundo */}
+      <h2 className="absolute top-10 text-5xl font-bold text-white text-center drop-shadow-lg">
+        Nossas Promoções
+      </h2>
+
+      {/* Seção de Promoções */}
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto mt-20">
+        {[0, 1, 2].map((index) => (
+          <Card
+            key={index}
+            className={`relative w-full h-[400px] flex flex-col justify-between rounded-2xl shadow-lg p-8 text-white transition-transform ${
+              index === 1
+                ? "scale-105 hover:scale-[1.1] shadow-3xl bg-gradient-to-r from-blue-500 to-blue-700"
+                : "scale-100 hover:scale-105 shadow-2xl bg-gradient-to-br from-blue-600 to-blue-800"
+            }`}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            {/* Indicador de Desconto */}
+            <div className="absolute top-0 right-0 bg-red-500 text-white font-bold text-sm px-3 py-1 rounded-bl-2xl">
+              10% OFF
+            </div>
+
+            {/* Nome do Plano */}
+            <h3 className="text-2xl font-bold uppercase text-center">Para Toda Família</h3>
+
+            {/* Preço Destacado */}
+            <p className="text-4xl font-bold text-center">
+              R$100.99
+              <span className="text-lg font-medium"> /mês</span>
+            </p>
+
+            {/* Benefícios */}
+            <ul className="text-lg mt-2 space-y-1 text-center">
+              <li className="flex justify-center items-center gap-2">✔ Internet Ilimitada</li>
+              <li className="flex justify-center items-center gap-2">✔ Suporte Premium</li>
+              <li className="flex justify-center items-center gap-2">✔ Instalação Grátis</li>
+            </ul>
+
+            {/* Botão de Contratação */}
+            <Button className="mt-6 w-full py-3 bg-white text-blue-700 text-lg font-bold rounded-lg hover:bg-gray-200 transition">
+              Contratar Agora
+            </Button>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default PromotionsList;
