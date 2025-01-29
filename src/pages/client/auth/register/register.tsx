@@ -64,13 +64,13 @@ export const Register = () => {
 
   return (
     <div className="h-screen flex flex-col md:flex-row">
-        <div className="w-full md:w-1/3 h-1/2 md:h-full bg-cover bg-center border-4 border-blue-500"></div>
+        <div className="w-full md:w-1/3 h-1/2 md:h-full bg-gradient-to-b from-blue-500 via-blue-300 to-blue-700"></div>
+
       {/* Formulário */}
       <div className="w-full md:w-2/3 ">
         <div className="mx-auto  mt-20 max-w-3xl p-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl md:text-3xl font-bold text-center mb-6">Cadastro</h1>
-        <p className="text-sm md:text-lg text-center mb-4">Crie sua conta para acessar.</p>
-        
+        <h1 className="text-2xl md:text-3xl font-bold text-center mb-6">Registre-se</h1>
+    
         {/* Mensagem de erro */}
         {error && (
           <div className="mb-4 p-4 bg-red-500 text-white rounded-lg text-center">
@@ -78,8 +78,8 @@ export const Register = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          
+        <form onSubmit={handleSubmit} >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" >
           {/* Campo Nome Completo */}
           <div className="mb-3">
             <label className="block text-gray-700 text-sm">Nome Completo</label>
@@ -228,14 +228,15 @@ export const Register = () => {
               placeholder="Número"
             />
           </div>
+        </div>
 
-        </form>
         <button 
             type="submit" 
             className="w-1/2 py-3 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition mx-auto block"
             >
             Salvar
             </button>
+        </form>
 
         <div className="text-center mt-6">
           <Link to="/client/auth/login" className="text-sm text-blue-500 hover:underline">

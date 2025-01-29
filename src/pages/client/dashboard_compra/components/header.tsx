@@ -120,23 +120,6 @@ export function Header() {
         <div></div>
         <div></div>
       </HamburgerIcon>
-
-      {/* Menu de navegação */}
-      <NavMenu isOpen={isOpen}>
-        <NavItem>
-          <Link to="planos" style={{ textDecoration: 'none', color: 'inherit' }}>
-            Para você
-          </Link>
-        </NavItem>
-        <NavItem>Para empresas</NavItem>
-        <NavItem>
-          <Link to="sobre-nos" style={{ textDecoration: 'none', color: 'inherit' }}>
-            Porque a Teleconect
-          </Link>
-        </NavItem>
-        <NavItem>Meus Planos</NavItem>
-        <NavItem>Staff</NavItem>
-      </NavMenu>
     </HeaderStyle>
   );
 }
