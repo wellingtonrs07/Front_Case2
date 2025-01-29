@@ -1,15 +1,19 @@
 import React from "react";
-import fundo from "/images/fundo_sobre_nos.jpeg";
-import desenho1 from "/images/desenho1.jpeg";
-import desenho2 from "/images/desenho2.jpeg";
-import desenho3 from "/images/desenho3.jpeg";
+import fundo from "/images/fundo_antena.jpeg";  // Imagem de fundo  
+import desenho1 from "/images/Imagem_1-removebg-preview.png";
+import desenho2 from "/images/Imagem_2-removebg-preview.png";
+import desenho3 from "/images/Imagem_3-removebg-preview.png";
 
 const AboutUs: React.FC = () => {
   return (
     <div className="bg-gray-50 text-gray-800">
       {/* Hero Section */}
       <div className="relative w-full h-[600px] lg:h-[700px]">
-        <img src={fundo} alt="Fundo" className="w-full h-full object-cover" />
+        <img 
+          src={fundo} 
+          alt="Fundo" 
+          className="w-full h-full object-cover filter contrast-125 brightness-110" 
+        />
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
           <h1 className="text-5xl lg:text-6xl font-bold text-white drop-shadow-lg">
@@ -74,7 +78,7 @@ const Section: React.FC<SectionProps> = ({ title, description, image, reverse })
         <p className="text-xl leading-relaxed text-gray-700">{description}</p>
       </div>
       <div className="w-[48%] h-[90%]">
-        <img src={image} alt={title} className="w-full h-full object-cover rounded-lg shadow-md" />
+        <img src={image} alt={title} className="w-full h-full object-cover bg-transparent" />
       </div>
     </section>
   );
