@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getPlansRequest, deleteRequest, postRequest } from '@/pages/director/dashboard/nested/planos/api/planos'; // Função para buscar planos
 import styled from 'styled-components'; // Importando o styled-components
 import toast, { Toaster } from 'react-hot-toast'; // Importando o react-hot-toast
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';  // Importando Dialog do Material-UI
+import { CreatePlanForm } from '../criar_planos/criar_planos'; // Seu formulário para criar plano
 
 // Definindo o tipo para os dados do plano
 type Plan = {
@@ -17,6 +19,7 @@ export const DirPlansList: React.FC = () => {
     const [plans, setPlans] = useState<Plan[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [open, setOpen] = useState<boolean>(false); // Estado para controlar a abertura do modal
 
     useEffect(() => {
         const fetchPlans = async () => {
@@ -73,13 +76,22 @@ export const DirPlansList: React.FC = () => {
     };
 
     const handleCreateNewPlan = () => {
-        // Lógica para criar um novo plano, como redirecionar para outra página ou abrir um modal
-        // Exibe um toast de confirmação
-        toast.success('Criar novo plano', {
+        setOpen(true);  // Abre o modal quando o botão for clicado
+    };
+
+    const handleCloseModal = () => {
+        setOpen(false);  // Fecha o modal
+    };
+
+    // Função para adicionar um novo plano à lista
+    const handlePlanCreated = (newPlan: Plan) => {
+        setPlans((prevPlans) => [...prevPlans, newPlan]); // Adiciona o novo plano à lista
+        setOpen(false); // Fecha o modal
+        toast.success('Plano criado com sucesso!', {
             position: 'top-right',
             duration: 4000,
             style: {
-                backgroundColor: '#2196F3',
+                backgroundColor: '#4CAF50',
                 color: '#fff',
                 fontWeight: 'bold',
             },
@@ -115,13 +127,6 @@ export const DirPlansList: React.FC = () => {
                     </PlanCard>
                 ))}
             </PlansList>
-
-            {/* Botão Criar Novo Plano */}
-            <CreateNewButton onClick={handleCreateNewPlan}>
-                Criar Novo Plano
-            </CreateNewButton>
-
-            <Toaster /> {/* Exibe o ToastContainer para as mensagens de toast */}
         </Container>
     );
 };
@@ -129,6 +134,9 @@ export const DirPlansList: React.FC = () => {
 // Styled Components
 const Container = styled.div`
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 `;
 
 const Title = styled.h1`
@@ -141,6 +149,7 @@ const PlansList = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    flex-grow: 1;
 `;
 
 const PlanCard = styled.div`

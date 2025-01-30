@@ -14,7 +14,7 @@ export const menuItems = [
     {
         label: 'Criar Planos',
         icon: <User />,
-        href: '/user/dashboard/profile',
+        href: '/director/dashboard/criar-planos',
     },
 
     {
@@ -24,9 +24,9 @@ export const menuItems = [
     },
 
     {
-        label: 'Orçamentos',
+        label: 'Site',
         icon: <Calculator />,
-        href: '/user/dashboard/budget',
+        href: '/client/dashboard',
     },
 
     {
@@ -77,9 +77,11 @@ const MenuStyles = styled.div`
         border-radius: 8px;
         font-size: 1.0rem;
         font-weight: 500;
-        color: #d9dce8;
+        color: #3c50e0;
         text-decoration: none;
         background: none;
+        background-color: #3c50e0;
+        color: #ffffff;
         transition: background-color 0.3s ease, color 0.3s ease;
 
         svg {
@@ -92,27 +94,5 @@ const MenuStyles = styled.div`
         }
     }
 
-    .logout-btn {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-size: 1.0rem;
-        font-weight: 500;
-        color: #d9dce8;
-        background: none;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
 
-        svg {
-            font-size: 1.5rem;
-        }
-
-        &:hover {
-            background-color: #3c50e0;
-            color: #ffffff;
-        }
-    }
 `;

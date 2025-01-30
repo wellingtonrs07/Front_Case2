@@ -10,6 +10,11 @@ import { Register } from './client/auth/register/register.tsx';
 import { EditClientAddress } from './client/dashboard_compra/nested/confirmar_dados/confirmar_dados.tsx';
 import { DirectorDashboard } from './director/dashboard/dashboard.tsx';
 import {DirPlansList} from './director/dashboard/nested/planos/planos.page.tsx'
+import { checkTokenDirector } from './director/auth/token/api/CheckToken.ts';
+import {CreatePlanForm} from './director/dashboard/nested/criar_planos/criar_planos.tsx'
+import {UserServicesPage} from './client/dashboard_dados/nested/meus_planos/meus_planos.tsx';
+import { DashboardDados } from './client/dashboard_dados/dashboard_dados.tsx';
+
 
 const routes: RouteObject[] = [
     {
@@ -85,18 +90,47 @@ const routes: RouteObject[] = [
             id: "director-dashboard",
             loader: async () => {
               try {
-                await checkToken();
+                await checkTokenDirector();
                 return null;
               } catch (error) {
                 return redirect('/director/auth/login');
               }
             },
             children:[
+                {
+                    index: true,
+                    loader: async () => redirect('/director/dashboard/planos-dir'), // Redireciona para "planos" ao acessar "client/dashboard"
+                },
                 {path: "planos-dir",
                 element: <DirPlansList />,
-                id: "planos-dir"}
+                id: "planos-dir"},
+                {path: "criar-planos",
+                element: <CreatePlanForm />,
+                id: "criar-planos"}
             ]
             },
+            {
+                path:"client/dashboard-dados",
+                element:<DashboardDados/>,
+                id:"clientdados-dashboard",
+                loader: async () => {
+                    try {
+                      await checkToken();
+                      return null;
+                    } catch (error) {
+                      return redirect('/client/auth/login');
+                    }
+                  },
+                  children:[
+                    {
+                        index: true,
+                        loader: async () => redirect('/client/dashboard-dados/meus-planos'), // Redireciona para "planos" ao acessar "client/dashboard"
+                    },
+                    {path: "meus-planos",
+                    element: < UserServicesPage/>,
+                    id: "meus-planos"},
+                  ]
+            }
 
 ];
 

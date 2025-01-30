@@ -67,6 +67,7 @@ const MenuStyles = styled.div`
         text-decoration: none;
         background: none;
         transition: background-color 0.3s ease, color 0.3s ease;
+        color: black;
 
         svg {
             font-size: 1.5rem;
