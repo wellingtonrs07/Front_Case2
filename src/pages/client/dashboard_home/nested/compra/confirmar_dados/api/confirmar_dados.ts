@@ -21,3 +21,28 @@ export async function getClientData(): Promise<any> {
     return data; // Retorna a resposta do cliente diretamente, sem envolver o `response` separadamente
   }
   
+
+  export async function postContract(contractData: any): Promise<any> {
+    let { apiBaseUrl } = config;
+    let requestRoute = `/client/create-contract`; // Rota para criar um novo contrato
+    
+    let options = {
+      method: "POST", // Definindo o método como POST
+      headers: {
+        "Content-Type": "application/json", // Definindo o tipo de conteúdo como JSON
+      },
+      credentials: "include" as RequestCredentials, // Mantém a sessão do usuário
+      body: JSON.stringify(contractData), // Convertendo o corpo da requisição para JSON
+    };
+  
+    let response = await fetch(apiBaseUrl + requestRoute, options);
+  
+    if (!response.ok) {
+      throw new Error("Erro ao criar o contrato");
+    }
+  
+    let data = await response.json();
+    console.log("Contrato criado com sucesso:", data);
+  
+    return data; // Retorna a resposta do contrato criado
+  }

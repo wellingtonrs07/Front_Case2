@@ -3,7 +3,7 @@ import { Header } from './components/header';
 import styled from 'styled-components';
 import MainPage from './nested/mainpage';
 import AboutUs from './nested/sobre_nos/sobre_nos';
-import EditClientAddress from './nested/compra/confirmar_dados/confirmar_dados'
+import ConfirmCompra from './nested/compra/confirmar_dados/confirmar_dados'
 
 export const Dashboard = () => {
     return (
@@ -17,7 +17,7 @@ export const Dashboard = () => {
                     <Route path="sobre-nos" element={<AboutUs />} />
                 </Routes>
                 <Routes>
-                    <Route path="compra/confirmar-dados" element={<EditClientAddress />} />
+                    <Route path="compra/confirmar-dados" element={<ConfirmCompra />} />
                 </Routes>
             </main>
         </DashboardStyles>

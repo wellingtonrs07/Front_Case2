@@ -21,10 +21,11 @@ export const UserServicesPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true); // Estado de carregamento
     const [error, setError] = useState<string | null>(null); // Estado de erro
 
-        // Função para converter string "X GB" para número
+    // Função para converter string "X GB" para número
     const convertToNumber = (value: string) => {
-          return parseFloat(value.replace(' GB', '').trim()); // Remove " GB" e converte para número
-      };
+        return parseFloat(value.replace(' GB', '').trim()); // Remove " GB" e converte para número
+    };
+
     // Função para buscar os IDs dos serviços
     const fetchServices = async () => {
         try {
@@ -105,14 +106,61 @@ export const UserServicesPage: React.FC = () => {
 
     return (
       <Container>
-          {/* Primeira div */}
-          <FirstDiv>
-              <h1> Olá </h1>
-          </FirstDiv>
-
           {/* Segunda div */}
           <SecondDiv>
-              <h3>Segunda Div com Borda</h3>
+              <h2 className="text-center text-5xl font-semibold mb-6 text-blue-600">Meus Serviços</h2>
+                {services.length > 0 ? (
+                    <ul>
+                        {services.map((serviceId, index) => (
+                            <li key={index} className="mb-6">
+                                <div className="text-center">
+                                    {contracts[index] ? (
+                                        <div className=' flex justify-center items-center border-4 border-blue-600 rounded-lg p-5'>
+
+                                            {plans[index] ? (
+                                               <div className="relative flex items-center">
+                                                   {/* Circulo de fundo (total) com azul claro */}
+                                                   <CircularProgress
+                                                       variant="determinate"
+                                                       value={100}
+                                                       size={300}
+                                                       thickness={4}
+                                                       sx={{
+                                                           color: '#B3E5FC', // Azul claro para o fundo (parte não preenchida)
+                                                       }}
+                                                   />
+                                                                                                    {/* Texto no centro */}
+                                                    <TextContainer>
+                                                    <p> Consumiu:</p>
+                                                      <h1>{contracts[index].used}</h1>
+                                                      <p> De {(plans[index].speed)}</p>
+                                                   </TextContainer>
+                                                   {/* Circulo para mostrar o consumo com azul */}
+                                                   <CircularProgress
+                                                       variant="determinate"
+                                                       value={(convertToNumber(contracts[index].used) / convertToNumber(plans[index].speed)) * 100}
+                                                       size={300}
+                                                       thickness={4}
+                                                       className="absolute"
+                                                       sx={{
+                                                           color: '#1976D2', 
+                                                       }}
+                                                   />
+                                               </div>
+                                            ) : (
+                                                <p>Plano não encontrado para este contrato.</p>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <p>Contrato não encontrado para este serviço.</p>
+                                    )}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>Nenhum serviço encontrado.</p>
+                )}
           </SecondDiv>
       </Container>
   );
@@ -124,7 +172,6 @@ const Container = styled.div`
 display: flex;
 flex-direction: column; /* Faz com que as divs fiquem empilhadas */
 padding: 2rem;
-width: 100%; /* Garante que o Container ocupa toda a largura da tela */
 `;
 
 const FirstDiv = styled.div`
@@ -144,4 +191,19 @@ border-radius: 8px;
 border: 4px solid #4caf50; /* Borda verde */
 `;
 
+const TextContainer = styled.div`
+    position: absolute;
+    border: 4px solid #4caf50; /* Borda verde */
+    padding: 100px;
+
+
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1976D2;
+      margin: 0;
+  }
+`;
+
 export default UserServicesPage;
+ 
