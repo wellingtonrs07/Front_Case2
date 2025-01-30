@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import styled from "styled-components";
-import logo from "/images/logo.png";
+import logo from "/images/logo_correto.png";
 import React, { useState } from 'react';
 
 const HeaderStyle = styled.header`
@@ -8,38 +8,39 @@ const HeaderStyle = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  height: 80px;
+  height: 70px; /* Reduzi a altura para um design mais compacto */
   background-color: white;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 30px;
   z-index: 1000;
 
   @media (max-width: 768px) {
     height: 60px;
-    padding: 0 10px;
+    padding: 0 15px;
   }
 `;
 
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 `;
 
 const Logo = styled.img`
-  height: 40px;
+  height: 55px; /* Mantive um bom tamanho para continuar visível */
 `;
 
 const LogoText = styled.div`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   color: #3A80E1;
   background: linear-gradient(45deg, #3A80E1, #6A9EFC);
   -webkit-background-clip: text;
   color: transparent;
+  letter-spacing: 1px;
 `;
 
 const NavMenu = styled.nav<{ isOpen: boolean }>`
@@ -49,20 +50,21 @@ const NavMenu = styled.nav<{ isOpen: boolean }>`
 
   @media (max-width: 768px) {
     position: absolute;
-    top: 80px;
+    top: 70px;
     left: 0;
     width: 100%;
     flex-direction: column;
     background-color: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px 0;
+    padding: 15px 0;
     display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+    gap: 10px;
   }
 `;
 
 const NavItem = styled.div`
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
   transition: color 0.3s ease-in-out;
@@ -72,16 +74,16 @@ const NavItem = styled.div`
   }
 
   @media (max-width: 768px) {
-    font-size: 16px;
-    padding: 10px 0;
+    font-size: 14px;
+    padding: 8px 0;
   }
 `;
 
 const NavButton = styled.button`
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   padding: 8px 18px;
-  border-radius: 25px;
+  border-radius: 20px;
   border: 2px solid #3A80E1;
   background-color: transparent;
   color: #3A80E1;
@@ -108,10 +110,11 @@ const HamburgerIcon = styled.div`
   }
 
   div {
-    width: 30px;
+    width: 28px;
     height: 3px;
     background-color: #333;
-    margin: 6px 0;
+    margin: 5px 0;
+    border-radius: 3px;
   }
 `;
 
@@ -143,7 +146,7 @@ export function Header() {
   return (
     <HeaderStyle>
       <LogoContainer>
-        <Logo src={logo} alt="Logo" />
+        <Logo src={logo} alt="Teleconnect Logo" />
         <LogoText>TELECONNECT</LogoText>
       </LogoContainer>
 
@@ -158,12 +161,11 @@ export function Header() {
         <NavItem onClick={() => handleNavigation("plano-empresa")}>Para empresas</NavItem>
         <NavItem>
           <Link to="sobre-nos" style={{ textDecoration: 'none', color: 'inherit' }}>
-            Porque a Teleconect
+            Porque a Teleconnect
           </Link>
         </NavItem>
 
         <NavButton>Meus Planos</NavButton>
-        <NavButton>Staff</NavButton>
       </NavMenu>
     </HeaderStyle>
   );
