@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import styled from "styled-components";
-import logo from "/images/logo_correto.png";
+import logo from "/images/logo_correta.png";
 import React, { useState } from 'react';
 
 const HeaderStyle = styled.header`
@@ -8,17 +8,17 @@ const HeaderStyle = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px; /* Reduzi a altura para um design mais compacto */
+  height: 65px; /* Header mais compacto */
   background-color: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.08);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
+  padding: 0 25px;
   z-index: 1000;
 
   @media (max-width: 768px) {
-    height: 60px;
+    height: 55px;
     padding: 0 15px;
   }
 `;
@@ -26,37 +26,28 @@ const HeaderStyle = styled.header`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
 `;
 
 const Logo = styled.img`
-  height: 55px; /* Mantive um bom tamanho para continuar visível */
-`;
-
-const LogoText = styled.div`
-  font-size: 22px;
-  font-weight: bold;
-  color: #3A80E1;
-  background: linear-gradient(45deg, #3A80E1, #6A9EFC);
-  -webkit-background-clip: text;
-  color: transparent;
-  letter-spacing: 1px;
+  height: 40px; /* Ajuste para manter o design clean */
+  width: auto;
+  object-fit: contain;
 `;
 
 const NavMenu = styled.nav<{ isOpen: boolean }>`
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 25px;
 
   @media (max-width: 768px) {
     position: absolute;
-    top: 70px;
+    top: 55px;
     left: 0;
     width: 100%;
     flex-direction: column;
     background-color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 15px 0;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+    padding: 12px 0;
     display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
     gap: 10px;
   }
@@ -64,7 +55,7 @@ const NavMenu = styled.nav<{ isOpen: boolean }>`
 
 const NavItem = styled.div`
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
   transition: color 0.3s ease-in-out;
@@ -75,15 +66,15 @@ const NavItem = styled.div`
 
   @media (max-width: 768px) {
     font-size: 14px;
-    padding: 8px 0;
+    padding: 7px 0;
   }
 `;
 
 const NavButton = styled.button`
   font-weight: 600;
-  font-size: 15px;
-  padding: 8px 18px;
-  border-radius: 20px;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 18px;
   border: 2px solid #3A80E1;
   background-color: transparent;
   color: #3A80E1;
@@ -96,8 +87,8 @@ const NavButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    font-size: 14px;
-    padding: 6px 14px;
+    font-size: 13px;
+    padding: 5px 12px;
   }
 `;
 
@@ -110,11 +101,11 @@ const HamburgerIcon = styled.div`
   }
 
   div {
-    width: 28px;
-    height: 3px;
+    width: 26px;
+    height: 2.5px;
     background-color: #333;
     margin: 5px 0;
-    border-radius: 3px;
+    border-radius: 2px;
   }
 `;
 
@@ -147,7 +138,6 @@ export function Header() {
     <HeaderStyle>
       <LogoContainer>
         <Logo src={logo} alt="Teleconnect Logo" />
-        <LogoText>TELECONNECT</LogoText>
       </LogoContainer>
 
       <HamburgerIcon onClick={toggleMenu}>
