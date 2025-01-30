@@ -24,7 +24,7 @@ export const ClientLogin = () => {
     setError(''); // Limpar qualquer erro anterior
     try {
       await login(credentials.email, credentials.password); 
-      navigate('/client/dashboard/compra/confirmar-dados'); 
+      navigate('/client/dashboard-dados'); 
     } catch (error) {
       setError('Erro no login. Por favor, verifique suas credenciais.'); // Definir a mensagem de erro
       toast.error('Erro no login. Por favor, verifique suas credenciais.');

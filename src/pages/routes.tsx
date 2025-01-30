@@ -100,7 +100,7 @@ const routes: RouteObject[] = [
             {
                 path:"client/dashboard-dados",
                 element:<DashboardDados/>,
-                id:"clientdados-dashboard",
+                id:"dashboard-dados",
                 loader: async () => {
                     try {
                       await checkToken();
