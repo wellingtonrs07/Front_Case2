@@ -1,9 +1,9 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import styled from "styled-components";
 import logo from "/images/logo.png";
-import React from 'react';
+import React, { useState } from 'react';
 
-const HeaderStyle = styled.div`
+const HeaderStyle = styled.header`
   position: fixed;
   top: 0;
   left: 0;
@@ -20,8 +20,6 @@ const HeaderStyle = styled.div`
   @media (max-width: 768px) {
     height: 60px;
     padding: 0 10px;
-    flex-direction: column;
-    justify-content: center;
   }
 `;
 
@@ -46,16 +44,19 @@ const LogoText = styled.div`
 
 const NavMenu = styled.nav<{ isOpen: boolean }>`
   display: flex;
-  justify-content: space-evenly;
-  width: 60%;
-  gap: 30px;
   align-items: center;
+  gap: 30px;
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
     width: 100%;
-    gap: 10px;
-    display: ${props => (props.isOpen ? 'flex' : 'none')};
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   }
 `;
 
@@ -72,6 +73,7 @@ const NavItem = styled.div`
 
   @media (max-width: 768px) {
     font-size: 16px;
+    padding: 10px 0;
   }
 `;
 
@@ -99,10 +101,10 @@ const NavButton = styled.button`
 
 const HamburgerIcon = styled.div`
   display: none;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     display: block;
-    cursor: pointer;
   }
 
   div {
@@ -114,22 +116,27 @@ const HamburgerIcon = styled.div`
 `;
 
 export function Header() {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  // Redireciona para a página principal e navega para a seção específica
-  const navigateToSection = (section: string) => {
-    if (location.pathname !== "/") {
-      window.location.href = `/#${section}`;
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleNavigation = (sectionId: string) => {
+    if (location.pathname === "/") {
+      scrollToSection(sectionId);
     } else {
-      const element = document.getElementById(section);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      navigate("/");
+      setTimeout(() => scrollToSection(sectionId), 500);
     }
   };
 
@@ -139,7 +146,7 @@ export function Header() {
         <Logo src={logo} alt="Logo" />
         <LogoText>TELECONNECT</LogoText>
       </LogoContainer>
-      
+
       <HamburgerIcon onClick={toggleMenu}>
         <div></div>
         <div></div>
@@ -147,19 +154,14 @@ export function Header() {
       </HamburgerIcon>
 
       <NavMenu isOpen={isOpen}>
-        {/* 🔹 AGORA "Para Você" VOLTA PARA A HOME E DIRECIONA PARA AS PROMOÇÕES */}
-        <NavItem onClick={() => navigateToSection("promocoes")}>Para você</NavItem>
-
-        {/* 🔹 "Para Empresas" VOLTA PARA A HOME E DIRECIONA PARA PLANOS EMPRESARIAIS */}
-        <NavItem onClick={() => navigateToSection("plano-empresa")}>Para empresas</NavItem>
-
+        <NavItem onClick={() => handleNavigation("plano-movel")}>Para você</NavItem>
+        <NavItem onClick={() => handleNavigation("plano-empresa")}>Para empresas</NavItem>
         <NavItem>
           <Link to="sobre-nos" style={{ textDecoration: 'none', color: 'inherit' }}>
             Porque a Teleconect
           </Link>
         </NavItem>
-        
-        {/* Botões estilizados */}
+
         <NavButton>Meus Planos</NavButton>
         <NavButton>Staff</NavButton>
       </NavMenu>
