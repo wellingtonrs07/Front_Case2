@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getPromotionsRequest, getPlanByIdRequest } from "@/pages/client/dashboard_home/nested/promocoes/api/promocoes";
-import fundo from "/images/fundo_novo.png"; // Imagem de fundo
+import fundo from "/images/fundo_novo.png";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,41 +8,36 @@ import { Skeleton } from "@/components/ui/skeleton";
 // Tipos para os dados da promoção e plano
 type Promotion = {
   description: string;
-  plan: string[]; // IDs dos planos
+  plan: string[];
   price: number;
   discount: string;
   image?: string;
 };
 
 type Plan = {
-  type: string;  // Nome do plano
-  speed: number; 
-  details: string[]; // Benefícios do plano
+  type: string;
+  speed: number;
+  details: string[];
 };
 
 export const PromotionsList: React.FC = () => {
-  const [promotions, setPromotions] = useState<Promotion[]>([]); // Estado para armazenar as promoções
-  const [plans, setPlans] = useState<Plan[]>([]); // Estado para armazenar os planos
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null); // Estado para hover
-  const [error, setError] = useState<string | null>(null); // Estado de erro
-  const [loading, setLoading] = useState<boolean>(true); // Estado de carregamento
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Função para buscar as promoções e planos
   useEffect(() => {
     const fetchPromotions = async () => {
       try {
         const data: Promotion[] = await getPromotionsRequest<Promotion[]>("/client/get-promotion");
-        setPromotions(data); // Atualiza o estado com as promoções
+        setPromotions(data);
         const planDetailsPromises = data.map((promotion) =>
-          // Para cada promoção, buscar os dados dos planos
-          Promise.all(
-            promotion.plan.map((planId) => getPlanByIdRequest<Plan>(planId))
-          )
+          Promise.all(promotion.plan.map((planId) => getPlanByIdRequest<Plan>(planId)))
         );
 
-        // Aguardar todas as requisições dos planos
         const allPlans = await Promise.all(planDetailsPromises);
-        setPlans(allPlans.flat()); // Atualiza os planos no estado
+        setPlans(allPlans.flat());
       } catch (err) {
         setError("Falha ao carregar promoções.");
         console.error(err);
@@ -51,7 +46,7 @@ export const PromotionsList: React.FC = () => {
       }
     };
 
-    fetchPromotions(); // Chama a função para buscar as promoções e planos
+    fetchPromotions();
   }, []);
 
   if (loading)
@@ -75,13 +70,8 @@ export const PromotionsList: React.FC = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Título dentro da imagem de fundo */}
-      <h2 className="absolute top-10 text-5xl font-bold text-white text-center drop-shadow-lg">
-        Nossas Promoções
-      </h2>
-
-      {/* Seção de Promoções */}
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto mt-20">
+      {/* Seção de Promoções - Cards um pouco mais para cima */}
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto mt-6">
         {promotions.map((promotion, index) => (
           <Card
             key={index}
@@ -107,7 +97,7 @@ export const PromotionsList: React.FC = () => {
               <span className="text-lg font-medium"> /mês</span>
             </p>
 
-            {/* Benefícios (Exibe os benefícios do primeiro plano da promoção) */}
+            {/* Benefícios */}
             {plans[index] && (
               <ul className="text-lg mt-2 space-y-1 text-center">
                 {plans[index].details.map((benefit, idx) => (
