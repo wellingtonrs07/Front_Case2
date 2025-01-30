@@ -86,22 +86,22 @@ export const UserServicesPage: React.FC = () => {
     if (error) return <p className="text-center text-lg text-red-600">{error}</p>;
 
     return (
-        <div className="p-6 sm:p-12 max-w-8xl mx-auto flex flex-col items-center">
-            <h2 className="text-center text-5xl sm:text-6xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 mb-6 sm:mb-8">Meus Serviços</h2>
-            <div className="flex flex-wrap justify-center space-x-4 sm:space-x-10 mb-10">
-                <button className="border-2 border-gray-700 px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg rounded-lg hover:bg-gray-100 transition">
+        <div className="p-6 sm:p-10 max-w-7xl mx-auto flex flex-col items-center">
+            <h2 className="text-center text-3xl sm:text-4xl font-medium text-blue-600 mb-6">Meus Serviços</h2>
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8">
+                <button className="border border-gray-700 px-5 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-md hover:bg-gray-100 transition">
                     Central de Faturas
                 </button>
-                <button className="border-2 border-gray-700 px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg rounded-lg hover:bg-gray-100 transition">
+                <button className="border border-gray-700 px-5 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-md hover:bg-gray-100 transition">
                     Fazer Recarga
                 </button>
-                <button className="border-2 border-gray-700 px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg rounded-lg hover:bg-gray-100 transition">
+                <button className="border border-gray-700 px-5 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-md hover:bg-gray-100 transition">
                     Melhorar Meu Plano
                 </button>
             </div>
-            <hr className="border-gray-400 mb-10 w-full" />
+            <hr className="border-gray-300 mb-8 w-full" />
             {services.length > 0 ? (
-                <ul className="space-y-10 w-full flex flex-col items-center">
+                <ul className="space-y-8 w-full flex flex-col items-center">
                     {services.map((serviceId, index) => {
                         if (!contracts[index] || !plans[index]) {
                             return <p key={index} className="text-center text-gray-700 text-lg sm:text-xl">Plano ou contrato não encontrados.</p>;
@@ -113,9 +113,9 @@ export const UserServicesPage: React.FC = () => {
                         const remainingPercentage = 100 - usedPercentage;
 
                         return (
-                            <li key={index} className="bg-gray-100 shadow-xl rounded-2xl p-6 sm:p-12 border-4 border-gray-300 flex flex-col items-center w-full max-w-5xl">
+                            <li key={index} className="bg-gray-100 shadow-md rounded-xl p-8 sm:p-12 border border-gray-300 flex flex-col items-center w-full max-w-5xl">
                                 <div className="flex flex-col sm:flex-row items-center sm:space-x-16 text-center sm:text-left">
-                                    <div className="relative flex items-center justify-center w-56 sm:w-72 h-56 sm:h-72">
+                                    <div className="relative flex items-center justify-center w-56 sm:w-80 h-56 sm:h-80">
                                         <CircularProgress
                                             variant="determinate"
                                             value={100}
@@ -130,17 +130,17 @@ export const UserServicesPage: React.FC = () => {
                                             thickness={6}
                                             sx={{ position: 'absolute', color: '#1E88E5' }}
                                         />
-                                        <div className="absolute text-blue-700 text-center text-lg sm:text-2xl font-semibold">
-                                            <p className="text-base sm:text-lg">Consumiu:</p>
-                                            <h1 className="text-2xl sm:text-3xl font-bold">{usedGB} GB</h1>
-                                            <p className="text-base sm:text-lg"> de {totalGB} GB</p>
+                                        <div className="absolute text-blue-700 text-center text-lg sm:text-xl font-medium">
+                                            <p className="text-sm sm:text-lg">Consumiu:</p>
+                                            <h1 className="text-xl sm:text-2xl font-semibold">{usedGB} GB</h1>
+                                            <p className="text-sm sm:text-lg"> de {totalGB} GB</p>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col text-lg sm:text-xl space-y-2 sm:space-y-4 mt-6 sm:mt-0">
-                                        <h3 className="text-2xl sm:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-400">{plans[index].type}</h3>
-                                        <p className="text-base sm:text-lg">Meu consumo: <span className="font-bold">{usedGB} GB</span></p>
-                                        <p className="text-base sm:text-lg">Disponível: <span className="font-bold">{remainingPercentage} GB</span></p>
-                                        <p className="text-sm sm:text-md text-gray-500 mt-2">Renova 20/01</p>
+                                    <div className="flex flex-col text-lg sm:text-xl space-y-2 sm:space-y-4 mt-4 sm:mt-0">
+                                        <h3 className="text-xl sm:text-3xl font-medium text-blue-700">{plans[index].type}</h3>
+                                        <p className="text-lg sm:text-xl">Meu consumo: <span className="font-semibold">{usedGB} GB</span></p>
+                                        <p className="text-lg sm:text-xl">Disponível: <span className="font-semibold">{remainingPercentage} GB</span></p>
+                                        <p className="text-md text-gray-500 mt-2">Renova 20/01</p>
                                     </div>
                                 </div>
                             </li>
