@@ -1,30 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { getPromotionsRequest } from "@/pages/client/dashboard_home/nested/promocoes/api/promocoes";
+import { getPromotionsRequest, getPlanByIdRequest } from "@/pages/client/dashboard_home/nested/promocoes/api/promocoes";
 import fundo from "/images/fundo_novo.png"; // Imagem de fundo
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// Tipos para os dados da promoção e plano
 type Promotion = {
   description: string;
-  plan: string[];
+  plan: string[]; // IDs dos planos
   price: number;
   discount: string;
   image?: string;
 };
 
-export const PromotionsList: React.FC = () => {
-  const [promotions, setPromotions] = useState<Promotion[]>([]);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+type Plan = {
+  type: string;  // Nome do plano
+  speed: number; 
+  details: string[]; // Benefícios do plano
+};
 
+export const PromotionsList: React.FC = () => {
+  const [promotions, setPromotions] = useState<Promotion[]>([]); // Estado para armazenar as promoções
+  const [plans, setPlans] = useState<Plan[]>([]); // Estado para armazenar os planos
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null); // Estado para hover
+  const [error, setError] = useState<string | null>(null); // Estado de erro
+  const [loading, setLoading] = useState<boolean>(true); // Estado de carregamento
+
+  // Função para buscar as promoções e planos
   useEffect(() => {
     const fetchPromotions = async () => {
       try {
-        const route = "/client/get-promotion";
-        const data: Promotion[] = await getPromotionsRequest<Promotion[]>(route);
-        setPromotions(data);
+        const data: Promotion[] = await getPromotionsRequest<Promotion[]>("/client/get-promotion");
+        setPromotions(data); // Atualiza o estado com as promoções
+        const planDetailsPromises = data.map((promotion) =>
+          // Para cada promoção, buscar os dados dos planos
+          Promise.all(
+            promotion.plan.map((planId) => getPlanByIdRequest<Plan>(planId))
+          )
+        );
+
+        // Aguardar todas as requisições dos planos
+        const allPlans = await Promise.all(planDetailsPromises);
+        setPlans(allPlans.flat()); // Atualiza os planos no estado
       } catch (err) {
         setError("Falha ao carregar promoções.");
         console.error(err);
@@ -33,7 +51,7 @@ export const PromotionsList: React.FC = () => {
       }
     };
 
-    fetchPromotions();
+    fetchPromotions(); // Chama a função para buscar as promoções e planos
   }, []);
 
   if (loading)
@@ -64,7 +82,7 @@ export const PromotionsList: React.FC = () => {
 
       {/* Seção de Promoções */}
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto mt-20">
-        {[0, 1, 2].map((index) => (
+        {promotions.map((promotion, index) => (
           <Card
             key={index}
             className={`relative w-full h-[400px] flex flex-col justify-between rounded-2xl shadow-lg p-8 text-white transition-transform ${
@@ -77,24 +95,26 @@ export const PromotionsList: React.FC = () => {
           >
             {/* Indicador de Desconto */}
             <div className="absolute top-0 right-0 bg-red-500 text-white font-bold text-sm px-3 py-1 rounded-bl-2xl">
-              10% OFF
+              {promotion.discount} OFF
             </div>
 
             {/* Nome do Plano */}
-            <h3 className="text-2xl font-bold uppercase text-center">Para Toda Família</h3>
+            <h3 className="text-2xl font-bold uppercase text-center">{promotion.description}</h3>
 
             {/* Preço Destacado */}
             <p className="text-4xl font-bold text-center">
-              R$100.99
+              R${promotion.price.toFixed(2)}
               <span className="text-lg font-medium"> /mês</span>
             </p>
 
-            {/* Benefícios */}
-            <ul className="text-lg mt-2 space-y-1 text-center">
-              <li className="flex justify-center items-center gap-2">✔ Internet Ilimitada</li>
-              <li className="flex justify-center items-center gap-2">✔ Suporte Premium</li>
-              <li className="flex justify-center items-center gap-2">✔ Instalação Grátis</li>
-            </ul>
+            {/* Benefícios (Exibe os benefícios do primeiro plano da promoção) */}
+            {plans[index] && (
+              <ul className="text-lg mt-2 space-y-1 text-center">
+                {plans[index].details.map((benefit, idx) => (
+                  <li key={idx} className="flex justify-center items-center gap-2">✔ {benefit}</li>
+                ))}
+              </ul>
+            )}
 
             {/* Botão de Contratação */}
             <Button className="mt-6 w-full py-3 bg-white text-blue-700 text-lg font-bold rounded-lg hover:bg-gray-200 transition">
