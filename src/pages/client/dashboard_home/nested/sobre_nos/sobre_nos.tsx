@@ -8,7 +8,7 @@ const AboutUs: React.FC = () => {
   return (
     <div className="bg-gray-50 text-gray-800">
       {/* Hero Section */}
-      <div className="relative w-full h-[600px] lg:h-[700px]">
+      <div className="py-0 relative w-full h-[600px] lg:h-[700px]">
         <img 
           src={fundo} 
           alt="Fundo" 

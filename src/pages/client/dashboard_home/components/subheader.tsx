@@ -61,10 +61,10 @@ export function Subheader() {
   return (
     <SubheaderStyle>
       <SubNavMenu>
-        <NavItem onClick={() => scrollToSection("banda-larga")}>Banda Larga</NavItem>
-        <NavItem onClick={() => scrollToSection("telefonia-fixa")}>Telefonia Fixa</NavItem>
-        <NavItem onClick={() => scrollToSection("telefonia-movel-4g")}>Telefonia Móvel 4G</NavItem>
-        <NavItem onClick={() => scrollToSection("telefonia-movel-5g")}>Telefonia Móvel 5G</NavItem>
+        <NavItem onClick={() => scrollToSection("Banda")}>Banda Larga</NavItem>
+        <NavItem onClick={() => scrollToSection("Telfonia Fixa")}>Telefonia Fixa</NavItem>
+        <NavItem onClick={() => scrollToSection("movel-4G")}>Telefonia Móvel 4G</NavItem>
+        <NavItem onClick={() => scrollToSection("movel-5G")}>Telefonia Móvel 5G</NavItem>
       </SubNavMenu>
     </SubheaderStyle>
   );

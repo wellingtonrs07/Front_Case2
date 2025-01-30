@@ -147,7 +147,7 @@ export function Header() {
       </HamburgerIcon>
 
       <NavMenu isOpen={isOpen}>
-        <NavItem onClick={() => handleNavigation("plano-movel")}>Para você</NavItem>
+        <NavItem onClick={() => handleNavigation("promocoes")}>Para você</NavItem>
         <NavItem onClick={() => handleNavigation("plano-empresa")}>Para empresas</NavItem>
         <NavItem>
           <Link to="sobre-nos" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -155,7 +155,11 @@ export function Header() {
           </Link>
         </NavItem>
 
-        <NavButton>Meus Planos</NavButton>
+        <NavButton>
+        <Link to="/client/dashboard-dados" style={{ textDecoration: 'none', color: 'inherit' }}>
+          Meus Planos
+  </Link>
+  </NavButton>
       </NavMenu>
     </HeaderStyle>
   );
