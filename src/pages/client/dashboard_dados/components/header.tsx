@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import styled from "styled-components";
-import logo from "/images/logo.png";
+import logo from "/images/logo_correta.png";
 import React from 'react';
 
 const HeaderStyle = styled.div`
@@ -35,43 +35,16 @@ const Logo = styled.img`
   height: 40px;
 `;
 
-const LogoText = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: #3A80E1;
-  background: linear-gradient(45deg, #3A80E1, #6A9EFC);
-  -webkit-background-clip: text;
-  color: transparent;
-`;
-
 const NavMenu = styled.nav<{ isOpen: boolean }>`
   display: flex;
-  justify-content: space-evenly;
-  width: 60%;
-  gap: 30px;
   align-items: center;
-
+  margin-left: auto; /* 🔹 Empurra o botão para a direita */
+  
   @media (max-width: 768px) {
     flex-direction: column;
     width: 100%;
     gap: 10px;
     display: ${props => (props.isOpen ? 'flex' : 'none')};
-  }
-`;
-
-const NavItem = styled.div`
-  font-weight: 600;
-  font-size: 18px;
-  color: rgba(0, 0, 0, 0.8);
-  cursor: pointer;
-  transition: color 0.3s ease-in-out;
-
-  &:hover {
-    color: #3A80E1;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 16px;
   }
 `;
 
@@ -97,74 +70,24 @@ const NavButton = styled.button`
   }
 `;
 
-const HamburgerIcon = styled.div`
-  display: none;
-
-  @media (max-width: 768px) {
-    display: block;
-    cursor: pointer;
-  }
-
-  div {
-    width: 30px;
-    height: 3px;
-    background-color: #333;
-    margin: 6px 0;
-  }
-`;
-
-export function Header() {
+export function HeaderDados() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const location = useLocation();
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // Redireciona para a página principal e navega para a seção específica
-  const navigateToSection = (section: string) => {
-    if (location.pathname !== "/") {
-      window.location.href = `/#${section}`;
-    } else {
-      const element = document.getElementById(section);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+  const goToHome = () => {
+    window.location.href = "/";
   };
 
   return (
     <HeaderStyle>
       <LogoContainer>
         <Logo src={logo} alt="Logo" />
-        <LogoText>TELECONNECT</LogoText>
       </LogoContainer>
-      
-      <HamburgerIcon onClick={toggleMenu}>
-        <div></div>
-        <div></div>
-        <div></div>
-      </HamburgerIcon>
 
       <NavMenu isOpen={isOpen}>
-        {/* 🔹 AGORA "Para Você" VOLTA PARA A HOME E DIRECIONA PARA AS PROMOÇÕES */}
-        <NavItem onClick={() => navigateToSection("promocoes")}>Para você</NavItem>
-
-        {/* 🔹 "Para Empresas" VOLTA PARA A HOME E DIRECIONA PARA PLANOS EMPRESARIAIS */}
-        <NavItem onClick={() => navigateToSection("plano-empresa")}>Para empresas</NavItem>
-
-        <NavItem>
-          <Link to="sobre-nos" style={{ textDecoration: 'none', color: 'inherit' }}>
-            Porque a Teleconect
-          </Link>
-        </NavItem>
-        
-        {/* Botões estilizados */}
-        <NavButton>Meus Planos</NavButton>
-        <NavButton>Staff</NavButton>
+        <NavButton onClick={goToHome}>Página Inicial</NavButton>
       </NavMenu>
     </HeaderStyle>
   );
 }
 
-export default Header;
+export default HeaderDados;

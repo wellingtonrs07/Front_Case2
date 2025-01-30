@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { Header } from './components/header';
+import { HeaderDados } from './components/header';
 import styled from 'styled-components';
 import UserServicesPage from './nested/meus_planos/meus_planos';
 
@@ -7,7 +7,7 @@ import UserServicesPage from './nested/meus_planos/meus_planos';
 export const DashboardDados = () => {
     return (
         <DashboardStyles>
-            <Header />
+            <HeaderDados />
             <main>
                 <Routes>
                     <Route path="meus-planos" element={<UserServicesPage />} />
