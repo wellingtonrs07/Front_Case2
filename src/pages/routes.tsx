@@ -1,13 +1,12 @@
 import { redirect, RouteObject } from 'react-router-dom';
 import { Dashboard } from './client/dashboard_home/dashboard_home.tsx';
-import {Dashboard_Compra} from './client/dashboard_compra/dashboard_compra.tsx'
+import {ConfirmCompra} from './client/dashboard_home/nested/compra/confirmar_dados/confirmar_dados.tsx'
 import { PlansList } from './client/dashboard_home/nested/planos/planos.page.tsx';
 import AboutUs from "./client/dashboard_home/nested/sobre_nos/sobre_nos.tsx";
 import { ClientLogin } from "./client/auth/login/login.tsx";
 import { DirectorLogin } from "./director/auth/login.tsx";
 import { checkToken } from './client/auth/token/api/CheckToken.ts';
 import { Register } from './client/auth/register/register.tsx';
-import { EditClientAddress } from './client/dashboard_compra/nested/confirmar_dados/confirmar_dados.tsx';
 import { DirectorDashboard } from './director/dashboard/dashboard.tsx';
 import {DirPlansList} from './director/dashboard/nested/planos/planos.page.tsx'
 import { checkTokenDirector } from './director/auth/token/api/CheckToken.ts';
@@ -59,31 +58,20 @@ const routes: RouteObject[] = [
             },
             {
                 path: "compra/confirmar-dados", 
-                element: <EditClientAddress />,
-                id: "confirmar-dados"
+                element: <ConfirmCompra />,
+                id: "confirmar-dados",
+                loader: async () => {
+                    try {
+                      await checkToken();
+                      return null;
+                    } catch (error) {
+                      return redirect('/client/auth/login');
+                    }
+                  },
             }
         ]
     },
-    {
-        path: "client/dashboard-compra",
-        element: <Dashboard_Compra />,
-        id: "dashboard-compra",
-        loader: async () => {
-            try {
-              await checkToken();
-              return null;
-            } catch (error) {
-              return redirect('/client/auth/login');
-            }
-          },
-        children: [
-            {
-                index: true,
-                loader: async () => redirect('/client/dashboard-compra/confirmar-dados'), // Redireciona para "planos" ao acessar "client/dashboard"
-            },
 
-        ]
-    },
         {
             path: "director/dashboard",
             element: <DirectorDashboard />,
