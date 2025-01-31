@@ -6,9 +6,9 @@ import desenho3 from "/images/desenho3-removebg-preview.png";
 
 const AboutUs: React.FC = () => {
   return (
-    <div className="bg-gray-50 text-gray-800">
+    <div className="bg-white text-gray-800 overflow-hidden">
       {/* Hero Section */}
-      <div className="py-0 relative w-full h-[600px] lg:h-[700px]">
+      <div className="relative w-full h-[600px] lg:h-[700px] mt-0 pt-0">
         <img 
           src={fundo} 
           alt="Fundo" 

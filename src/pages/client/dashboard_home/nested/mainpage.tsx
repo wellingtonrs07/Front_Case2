@@ -5,7 +5,7 @@ import { Subheader } from '../components/subheader';
 
 const MainPage: React.FC = () => {
     return (
-        <div className="w-screen flex flex-col items-center justify-center">
+        <div className="w-screen flex flex-col items-center justify-center bg-white">
             {/* Barra superior */}
             <Subheader />
 
@@ -14,19 +14,13 @@ const MainPage: React.FC = () => {
                 <PromotionsList />
             </section>
 
-            {/* Seção de Planos Móveis */}
-            <section id="plano-movel" className="w-full flex flex-col items-center justify-center mt-20">
-                <h2 className="text-5xl font-bold text-center text-gray-800 mb-8">
-                    Nossos Planos Móveis
+            {/* Seção de Planos */}
+            <section id="planos" className="w-full flex flex-col items-center justify-center mt-14 py-8">
+                {/* 🔹 Título um pouco maior e mais chamativo */}
+                <h2 className="text-2xl font-semibold text-gray-700 text-center mb-8">
+                    As Melhores Ofertas Para Você
                 </h2>
-                <PlansList />
-            </section>
 
-            {/* Seção de Planos Empresariais */}
-            <section id="plano-empresa" className="w-full flex flex-col items-center justify-center mt-20 bg-gray-100">
-                <h2 className="text-5xl font-bold text-center text-gray-800 mb-8">
-                    Nossos Planos Empresariais
-                </h2>
                 <PlansList />
             </section>
         </div>

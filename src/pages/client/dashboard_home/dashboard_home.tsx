@@ -17,7 +17,7 @@ export const Dashboard = () => {
                     <Route path="compra/confirmar-dados" element={<ConfirmCompra />} />
                 </Routes>
             </main>
-            <Footer /> {/* Adicionando o Footer ao final da página */}
+            <Footer />
         </DashboardStyles>
     );
 };
@@ -25,14 +25,14 @@ export const Dashboard = () => {
 const DashboardStyles = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Garante que ocupe toda a altura da tela */
+    height: 100vh;
     background-color: #f9f9f9;
 
     main {
-        flex: 1; /* Faz com que o conteúdo principal ocupe o espaço disponível */
-        padding-top: 100px; /* Espaço para não sobrepor o header */
-        width: 100%; /* Ocupa toda a largura */
-        padding-bottom: 50px; /* Garantir que o conteúdo não se sobreponha ao Footer */
+        flex: 1;
+        width: 100%;
+        padding-bottom: 50px; /* Mantém o espaçamento apenas para evitar sobreposição com o footer */
     }
 `;
 
+export default Dashboard;
