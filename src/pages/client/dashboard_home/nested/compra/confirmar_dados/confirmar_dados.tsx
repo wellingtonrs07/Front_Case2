@@ -17,7 +17,7 @@ type Plan = {
 
 export const ConfirmCompra = () => {
   const [cartPlans, setCartPlans] = useState<Plan[]>([]);
-  const [clientId, setClientId] = useState<string | null>(null); // Armazenar o client_id
+  const [clientId, setClientId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null); // Armazenar o planId selecionado
 
@@ -69,7 +69,7 @@ export const ConfirmCompra = () => {
     const contractData = {
       plan: selectedPlanId, // Passando o planId do plano selecionado
       start_date: startDate,
-      client: clientId, // Passando o ID do cliente
+      client: clientId,
     };
 
     try {
@@ -83,51 +83,76 @@ export const ConfirmCompra = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 py-6 md:px-10 lg:px-20 bg-gray-100">
-      <div className="flex flex-col md:flex-row w-full max-w-4xl bg-white rounded-lg shadow-lg border border-gray-200 p-6 md:p-10">
-        {/* Seção de Dados do Cartão */}
-        <div className="w-full md:w-1/2 p-4">
-          <h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">Dados do Cartão</h1>
-          <div className="space-y-4">
-            {[{ label: 'Número do Cartão', value: '1234 5678 9012 3456' },
+    <div className="flex justify-center items-center min-h-screen px-6 py-12 bg-gray-100">
+      <div className="flex flex-col lg:flex-row w-full max-w-5xl bg-white rounded-lg shadow-lg border border-gray-300 p-10">
+        
+        {/* 🔹 Seção de Dados do Cartão */}
+        <div className="w-full lg:w-3/5 px-8 py-6 border-b lg:border-b-0 lg:border-r border-gray-300">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-6">
+            Dados do Cartão
+          </h1>
+          <div className="space-y-5">
+            {[
+              { label: 'Número do Cartão', value: '1234 5678 9012 3456' },
               { label: 'Nome do Titular', value: 'João Silva' },
               { label: 'Data de Validade', value: '12/25' },
-              { label: 'CVV', value: '123' }].map((item, index) => (
+              { label: 'CVV', value: '123' }
+            ].map((item, index) => (
               <div key={index}>
-                <label className="block text-gray-700 text-base">{item.label}</label>
+                <label className="block text-gray-700 font-medium text-sm">{item.label}</label>
                 <input
                   type="text"
                   value={item.value}
-                  className="w-full px-4 py-2 border rounded-md mt-1 text-lg bg-gray-100"
+                  className="w-full px-4 py-3 border rounded-md mt-1 text-base bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   readOnly
                 />
               </div>
             ))}
           </div>
+        </div>
+
+        {/* 🔹 Seção de Planos no Carrinho */}
+        <div className="w-full lg:w-2/5 px-8 py-6 flex flex-col justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-6">
+              Planos no Carrinho
+            </h1>
+            {cartPlans.length > 0 ? (
+              cartPlans.map((plan, index) => (
+                <div key={index} className="mb-6 p-6 border rounded-xl bg-gray-50 shadow-md">
+                  <h2 className="text-lg font-bold text-gray-900">{plan.type}</h2>
+                  <div className="mt-3 space-y-3 text-sm">
+                    <p className="text-gray-700 flex justify-between">
+                      <span className="font-medium">Velocidade:</span> 
+                      <span>{plan.speed}</span>
+                    </p>
+                    <p className="text-gray-700 flex justify-between">
+                      <span className="font-medium">Preço:</span> 
+                      <span>R$ {plan.price.toFixed(2)}</span>
+                    </p>
+                    <p className="text-gray-600 flex justify-between">
+                      <span className="font-medium">Detalhes:</span> 
+                      <span>{plan.detail?.join(', ') || 'N/A'}</span>
+                    </p>
+                    <p className="text-gray-600 flex justify-between">
+                      <span className="font-medium">Produtos:</span> 
+                      <span>{plan.product?.join(', ') || 'N/A'}</span>
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">Nenhum plano no carrinho.</p>
+            )}
+          </div>
+
+          {/* 🔹 Botão de Compra dentro do Container */}
           <button
             onClick={handleConfirm}
-            className="w-full py-3 mt-6 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all"
+            className="w-full mt-4 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg hover:bg-blue-700 transition-all shadow-md"
           >
             Confirmar Compra
           </button>
-        </div>
-
-        {/* Seção de Planos no Carrinho */}
-        <div className="w-full md:w-1/2 p-4 bg-gray-50 rounded-lg mt-6 md:mt-0">
-          <h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">Planos no Carrinho</h1>
-          {cartPlans.length > 0 ? (
-            cartPlans.map((plan, index) => (
-              <div key={index} className="mb-4 p-4 border rounded-md bg-gray-100">
-                <p className="text-lg font-medium">{plan.type}</p>
-                <p className="text-sm text-gray-600">Velocidade: {plan.speed}</p>
-                <p className="text-sm text-gray-600">Preço: R$ {plan.price.toFixed(2)}</p>
-                <p className="text-sm text-gray-600">Detalhes: {plan.detail?.join(', ') || 'N/A'}</p>
-                <p className="text-sm text-gray-600">Produtos: {plan.product?.join(', ') || 'N/A'}</p>
-              </div>
-            ))
-          ) : (
-            <p className="text-lg text-center text-gray-600">Nenhum plano no carrinho.</p>
-          )}
         </div>
       </div>
       <ToastContainer />

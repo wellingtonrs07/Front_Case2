@@ -49,11 +49,19 @@ const NavItem = styled.div`
   }
 `;
 
-// 🔹 Função para rolar suavemente até a seção correta
-const scrollToSection = (sectionId: string) => {
-  const element = document.getElementById(sectionId);
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth" });
+// 🔹 Função para encontrar o elemento pelo texto e rolar suavemente até ele
+const scrollToSectionByText = (text: string) => {
+  const elements = document.querySelectorAll("h3, h2"); // Busca pelos títulos das seções
+  let targetElement: HTMLElement | null = null;
+
+  elements.forEach((element) => {
+    if (element.textContent?.trim().toLowerCase() === text.toLowerCase()) {
+      targetElement = element as HTMLElement;
+    }
+  });
+
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: "smooth" });
   }
 };
 
@@ -61,10 +69,10 @@ export function Subheader() {
   return (
     <SubheaderStyle>
       <SubNavMenu>
-        <NavItem onClick={() => scrollToSection("Banda")}>Banda Larga</NavItem>
-        <NavItem onClick={() => scrollToSection("Telfonia Fixa")}>Telefonia Fixa</NavItem>
-        <NavItem onClick={() => scrollToSection("movel-4G")}>Telefonia Móvel 4G</NavItem>
-        <NavItem onClick={() => scrollToSection("movel-5G")}>Telefonia Móvel 5G</NavItem>
+        <NavItem onClick={() => scrollToSectionByText("Banda Larga")}>Banda Larga</NavItem>
+        <NavItem onClick={() => scrollToSectionByText("Telefonia Fixa")}>Telefonia Fixa</NavItem>
+        <NavItem onClick={() => scrollToSectionByText("Telefonia Móvel")}>Telefonia Móvel 4G</NavItem>
+        <NavItem onClick={() => scrollToSectionByText("Telefonia Móvel")}>Telefonia Móvel 5G</NavItem>
       </SubNavMenu>
     </SubheaderStyle>
   );

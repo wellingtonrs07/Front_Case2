@@ -1,14 +1,14 @@
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import styled from "styled-components";
 import logo from "/images/logo_correta.png";
-import React, { useState } from 'react';
+import React from 'react';
 
 const HeaderStyle = styled.header`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 65px; /* Header mais compacto */
+  height: 65px;
   background-color: white;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.08);
   display: flex;
@@ -26,30 +26,30 @@ const HeaderStyle = styled.header`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Logo = styled.img`
-  height: 40px; /* Ajuste para manter o design clean */
+  height: 40px;
   width: auto;
   object-fit: contain;
 `;
 
-const NavMenu = styled.nav<{ isOpen: boolean }>`
+const NavMenu = styled.nav`
   display: flex;
   align-items: center;
   gap: 25px;
 
   @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 55px;
     left: 0;
     width: 100%;
-    flex-direction: column;
     background-color: white;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
     padding: 12px 0;
-    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
-    gap: 10px;
   }
 `;
 
@@ -92,63 +92,53 @@ const NavButton = styled.button`
   }
 `;
 
-const HamburgerIcon = styled.div`
-  display: none;
-  cursor: pointer;
+// 🔹 Função para encontrar um elemento pelo texto e rolar até ele
+const scrollToText = (textToFind: string) => {
+  setTimeout(() => {
+    const elements = document.querySelectorAll("h2, h3, p, span, div"); // Busca por textos em diferentes elementos
+    let targetElement: HTMLElement | null = null;
 
-  @media (max-width: 768px) {
-    display: block;
-  }
+    elements.forEach((el) => {
+      if (el.textContent?.trim() === textToFind) {
+        targetElement = el as HTMLElement;
+      }
+    });
 
-  div {
-    width: 26px;
-    height: 2.5px;
-    background-color: #333;
-    margin: 5px 0;
-    border-radius: 2px;
-  }
-`;
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 65, // Ajuste para compensar o header fixo
+        behavior: "smooth",
+      });
+    }
+  }, 100); // 🔹 Pequeno delay para garantir que a página carregue antes de rolar
+};
 
 export function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleNavigation = (sectionId: string) => {
+  // 🔹 Função para tratar navegação e rolagem exata
+  const handleNavigation = (textToFind: string) => {
     if (location.pathname === "/") {
-      scrollToSection(sectionId);
+      scrollToText(textToFind);
     } else {
       navigate("/");
-      setTimeout(() => scrollToSection(sectionId), 500);
+      setTimeout(() => scrollToText(textToFind), 500);
     }
   };
 
   return (
     <HeaderStyle>
-      <LogoContainer>
+      {/* Logo */}
+      <LogoContainer onClick={() => navigate("/")}>
         <Logo src={logo} alt="Teleconnect Logo" />
       </LogoContainer>
 
-      <HamburgerIcon onClick={toggleMenu}>
-        <div></div>
-        <div></div>
-        <div></div>
-      </HamburgerIcon>
+      {/* Menu de Navegação */}
+      <NavMenu>
+        <NavItem onClick={() => handleNavigation("Para Você")}>Para Você</NavItem>
+        <NavItem onClick={() => handleNavigation("Para Empresas")}>Para Empresas</NavItem>
 
-      <NavMenu isOpen={isOpen}>
-        <NavItem onClick={() => handleNavigation("promocoes")}>Para você</NavItem>
-        <NavItem onClick={() => handleNavigation("plano-empresa")}>Para empresas</NavItem>
         <NavItem>
           <Link to="sobre-nos" style={{ textDecoration: 'none', color: 'inherit' }}>
             Porque a Teleconnect
@@ -156,10 +146,10 @@ export function Header() {
         </NavItem>
 
         <NavButton>
-        <Link to="/client/dashboard-dados" style={{ textDecoration: 'none', color: 'inherit' }}>
-          Meus Planos
-  </Link>
-  </NavButton>
+          <Link to="/client/dashboard-dados" style={{ textDecoration: 'none', color: 'inherit' }}>
+            Meus Planos
+          </Link>
+        </NavButton>
       </NavMenu>
     </HeaderStyle>
   );
