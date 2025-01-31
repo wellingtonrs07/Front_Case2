@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
-import { getContractByIdRequest, getPlanByIdRequest, getServicesRequest } from './api/meus_planos';
+import { getContractByIdRequest, getPlanByIdRequest, getServicesRequest, getClientData, getClientContractsByIdRequest } from './api/meus_planos';
 
 // Tipos para os dados do contrato e plano
 type Contract = {
     plan: string;
+    client: string;
     start_date: Date;
     used: string;
 };
 
 type Plan = {
+    title: string;
     type: string;
     speed: string;
 };
 
+// Função para remover o "GB" de valores em GB e convertê-los para número
 const removeGB = (value: string) => {
     return parseFloat(value.replace(/GB/i, '').trim());
 };
@@ -26,70 +29,75 @@ const getRenewalDate = (startDate: Date): string => {
 };
 
 export const UserServicesPage: React.FC = () => {
-    const [services, setServices] = useState<string[]>([]);
-    const [contracts, setContracts] = useState<Contract[]>([]);
-    const [plans, setPlans] = useState<Plan[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [clientId, setClientId] = useState<string | null>(null); // Para armazenar o ID do cliente
+    const [clientContracts, setClientContracts] = useState<Contract[]>([]); // Para armazenar os contratos do cliente
+    const [plans, setPlans] = useState<Plan[]>([]); // Para armazenar os planos
+    const [loading, setLoading] = useState<boolean>(true); // Para controlar o estado de carregamento
+    const [error, setError] = useState<string | null>(null); // Para armazenar possíveis erros
 
+    // Obtendo os dados do cliente
     useEffect(() => {
-        const fetchServices = async () => {
+        const fetchClientData = async () => {
             try {
-                const data = await getServicesRequest<{ client_data: { services: string[] } }>();
-                if (data?.client_data?.services) {
-                    setServices(data.client_data.services);
+                const data = await getClientData(); // Chamando a função getClientData para obter o id do cliente e o cart
+                console.log(data.client_id)
+                if (data.client_id) {
+                    setClientId(data.client_id); // Armazenando o id do cliente
                 } else {
-                    setError("Nenhum serviço encontrado.");
+                    setError('Cliente não encontrado.');
+                    setLoading(false);
                 }
             } catch (err) {
-                setError('Erro ao carregar os serviços.');
+                setError('Erro ao carregar os dados do cliente.');
                 console.error(err);
-            } finally {
                 setLoading(false);
             }
         };
-        fetchServices();
-    }, []);
 
+        fetchClientData();
+    }, []); // Chama essa função apenas uma vez ao carregar o componente
+
+    // Obtendo os contratos do cliente com o id
     useEffect(() => {
-        if (services.length > 0) {
+        if (clientId) {
             const fetchContracts = async () => {
                 try {
-                    setLoading(true);
-                    const contractDetailsPromises = services.map((serviceId) =>
-                        getContractByIdRequest<Contract>(serviceId)
-                    );
-                    const contractDetails = await Promise.all(contractDetailsPromises);
-                    setContracts(contractDetails);
+                    const contractsData = await getClientContractsByIdRequest<any[]>(clientId); // Buscando contratos com o client_id
+                    setClientContracts(contractsData); // Atualizando os contratos do cliente
+                    console.log(contractsData)
                 } catch (err) {
                     setError('Erro ao carregar os contratos.');
                     console.error(err);
-                } finally {
-                    setLoading(false);
                 }
             };
+
             fetchContracts();
         }
-    }, [services]);
+    }, [clientId]); // Chama essa função toda vez que o clientId mudar
 
+    // Obtendo os planos baseados nos contratos, mas somente uma vez após os contratos estarem carregados
     useEffect(() => {
-        if (contracts.length > 0) {
+        if (clientContracts.length > 0) {
             const fetchPlans = async () => {
                 try {
-                    const planDetailsPromises = contracts.map((contract) =>
+                  console.log(clientContracts)
+                    const planDetailsPromises = clientContracts.map((contract) =>
                         getPlanByIdRequest<Plan>(contract.plan)
                     );
                     const planDetails = await Promise.all(planDetailsPromises);
-                    setPlans(planDetails);
+                    setPlans(planDetails); // Atualizando os planos
+                    setLoading(false); // Definindo loading como falso após carregar os planos
                 } catch (err) {
                     setError('Erro ao carregar os planos.');
                     console.error(err);
+                    setLoading(false); // Caso haja erro, definimos loading como false
                 }
             };
             fetchPlans();
         }
-    }, [contracts]);
+    }, [clientContracts]); // Chama essa função quando os contratos mudam, mas evita loop infinito
 
+    // Exibição de carregamento ou erro
     if (loading) return <p className="text-center text-lg text-gray-700">Carregando dados...</p>;
     if (error) return <p className="text-center text-lg text-red-600">{error}</p>;
 
@@ -108,19 +116,19 @@ export const UserServicesPage: React.FC = () => {
                 </button>
             </div>
             <hr className="border-gray-300 mb-8 w-full" />
-            {services.length > 0 ? (
+            {clientContracts.length > 0 ? (
                 <ul className="space-y-8 w-full flex flex-col items-center">
-                    {services.map((serviceId, index) => {
-                        if (!contracts[index] || !plans[index]) {
+                    {clientContracts.map((contract, index) => {
+                        if (!plans[index]) {
                             return <p key={index} className="text-center text-gray-700 text-lg sm:text-xl">Plano ou contrato não encontrados.</p>;
                         }
 
-                        const usedGB = removeGB(contracts[index].used);
+                        const usedGB = removeGB(contract.used);
                         const totalGB = removeGB(plans[index].speed);
                         const usedPercentage = Math.round((usedGB / totalGB) * 100);
                         const remainingPercentage = 100 - usedPercentage;
 
-                        const renewalDate = getRenewalDate(contracts[index].start_date); // Calculando a data de renovação
+                        const renewalDate = getRenewalDate(contract.start_date); // Calculando a data de renovação
 
                         return (
                             <li key={index} className="bg-gray-100 shadow-md rounded-xl p-8 sm:p-12 border border-gray-300 flex flex-col items-center w-full max-w-5xl">

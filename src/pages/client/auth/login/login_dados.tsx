@@ -6,7 +6,7 @@ import { Envelope, Lock } from '@phosphor-icons/react'; // Importando ícones
 import fundo from "/images/fundo_login.png";
 import { Link } from 'react-router-dom'; 
 
-export const ClientLogin = () => {
+export const ClientLogin_Data = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState(''); // Estado para o erro
   const navigate = useNavigate(); 

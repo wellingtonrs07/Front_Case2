@@ -18,15 +18,15 @@ export const menuItems = [
     },
 
     {
-        label: 'Finanças',
+        label: 'Promoções',
         icon: <Money />,
-        href: '/user/dashboard/finances',
+        href: '/director/dashboard/promocoes',
     },
 
     {
-        label: 'Site',
+        label: 'Criar Promoções',
         icon: <Calculator />,
-        href: '/client/dashboard',
+        href: '/director/dashboard/criar-promocoes',
     },
 
     {
