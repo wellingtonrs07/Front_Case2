@@ -9,7 +9,7 @@ type Plan = {
   speed: string;
   details: string[];
   price: number;
-  public: string;
+  public: string; // Indica se é B2B ou B2C
 };
 
 export const PlansList: React.FC = () => {
@@ -24,6 +24,7 @@ export const PlansList: React.FC = () => {
     "Telefonia Fixa": 0,
     "Banda Larga": 0,
     "Telefonia Móvel": 0,
+    "Para Empresas": 0, // Nova categoria para planos B2B
   });
 
   useEffect(() => {
@@ -50,28 +51,30 @@ export const PlansList: React.FC = () => {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
+  // Criando categorias e garantindo que planos B2B só aparecem na seção "Para Empresas"
   const categories = {
-    "Telefonia Fixa": plans.filter((plan) => plan.type === "Telefonia Fixa"),
-    "Banda Larga": plans.filter((plan) => plan.type === "Banda Larga"),
+    "Telefonia Fixa": plans.filter((plan) => plan.type === "Telefonia Fixa" && plan.public !== "B2B"),
+    "Banda Larga": plans.filter((plan) => plan.type === "Banda Larga" && plan.public !== "B2B"),
     "Telefonia Móvel": plans.filter(
-      (plan) => plan.type === "movel-4G" || plan.type === "movel-5G"
+      (plan) => (plan.type === "movel-4G" || plan.type === "movel-5G") && plan.public !== "B2B"
     ),
+    "Para Empresas": plans.filter((plan) => plan.public === "B2B"), // Apenas planos B2B
   };
 
-  const visiblePlans = (category: string, categoryPlans: Plan[]) =>
-    categoryPlans.slice(categoryIndexes[category], categoryIndexes[category] + visibleCount);
+  const visiblePlans = (category: string, categoryPlans: Plan[]) => {
+    const startIndex = categoryIndexes[category] ?? 0;
+    const count = visibleCount > 0 ? visibleCount : 1;
+    return categoryPlans.slice(startIndex, startIndex + count);
+  };
 
   const handleScroll = (direction: "left" | "right", category: string, totalPlans: number) => {
     setCategoryIndexes((prevIndexes) => {
-      let newIndex = prevIndexes[category];
+      let newIndex = prevIndexes[category] ?? 0;
 
       if (direction === "left") {
-        newIndex = Math.max(0, prevIndexes[category] - visibleCount);
+        newIndex = Math.max(0, newIndex - visibleCount);
       } else {
-        newIndex =
-          prevIndexes[category] + visibleCount >= totalPlans
-            ? prevIndexes[category]
-            : prevIndexes[category] + visibleCount;
+        newIndex = newIndex + visibleCount >= totalPlans ? newIndex : newIndex + visibleCount;
       }
 
       return { ...prevIndexes, [category]: newIndex };
@@ -87,6 +90,9 @@ export const PlansList: React.FC = () => {
       {Object.entries(categories).map(([category, categoryPlans]) =>
         categoryPlans.length > 0 ? (
           <div key={category} className="w-full max-w-5xl mb-12">
+            {category === "Para Empresas" && (
+              <h2 className="text-2xl font-bold text-blue-800 mb-6 text-center">Para Empresas</h2>
+            )}
             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center border-b-2 pb-2">
               {category}
             </h3>
@@ -112,7 +118,7 @@ export const PlansList: React.FC = () => {
                   {visiblePlans(category, categoryPlans).map((plan) => (
                     <div
                       key={plan._id}
-                      className="flex flex-col w-[420px] h-[500px] p-8 rounded-xl shadow-md border border-gray-300 transition-all transform"
+                      className="flex flex-col w-[420px] h-[500px] p-8 rounded-xl shadow-md border border-gray-300 transition-all transform items-center text-center"
                       style={{
                         background: "#f8f9fa",
                         color: "#333",
@@ -130,12 +136,10 @@ export const PlansList: React.FC = () => {
                         <p className="text-lg text-gray-600">Velocidade</p>
                       </div>
 
-                      {/* Detalhes do plano */}
-                      <ul className="text-md text-gray-700 space-y-2 mb-4">
+                      {/* Detalhes do plano - Centralizados */}
+                      <ul className="text-md text-gray-700 space-y-2 mb-4 flex flex-col items-center text-center">
                         {plan.details.map((detail, i) => (
-                          <li key={i} className="font-medium">
-                            {detail}
-                          </li>
+                          <li key={i} className="font-medium">{detail}</li>
                         ))}
                       </ul>
 

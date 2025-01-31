@@ -1,8 +1,8 @@
 import React from "react";
 import fundo from "/images/fundo_sobrenos.jpg"; // Imagem de fundo  
 import desenho1 from "/images/1.jpg";
-import desenho2 from "/images/desenho2-removebg-preview.png";
-import desenho3 from "/images/desenho3-removebg-preview.png";
+import desenho2 from "/images/3.jpg";
+import desenho3 from "/images/1.jpg";
 
 const AboutUs: React.FC = () => {
   return (
