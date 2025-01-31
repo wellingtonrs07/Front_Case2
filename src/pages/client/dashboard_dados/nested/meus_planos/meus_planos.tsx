@@ -5,6 +5,7 @@ import { getContractByIdRequest, getPlanByIdRequest, getServicesRequest } from '
 // Tipos para os dados do contrato e plano
 type Contract = {
     plan: string;
+    start_date: Date;
     used: string;
 };
 
@@ -15,6 +16,13 @@ type Plan = {
 
 const removeGB = (value: string) => {
     return parseFloat(value.replace(/GB/i, '').trim());
+};
+
+// Função para calcular a data de renovação
+const getRenewalDate = (startDate: Date): string => {
+    const renewalDate = new Date(startDate);
+    renewalDate.setMonth(renewalDate.getMonth() + 1); // Aumenta 1 mês para simular renovação mensal
+    return renewalDate.toLocaleDateString('pt-BR'); // Formato brasileiro de data (dd/mm/yyyy)
 };
 
 export const UserServicesPage: React.FC = () => {
@@ -112,6 +120,8 @@ export const UserServicesPage: React.FC = () => {
                         const usedPercentage = Math.round((usedGB / totalGB) * 100);
                         const remainingPercentage = 100 - usedPercentage;
 
+                        const renewalDate = getRenewalDate(contracts[index].start_date); // Calculando a data de renovação
+
                         return (
                             <li key={index} className="bg-gray-100 shadow-md rounded-xl p-8 sm:p-12 border border-gray-300 flex flex-col items-center w-full max-w-5xl">
                                 <div className="flex flex-col sm:flex-row items-center sm:space-x-16 text-center sm:text-left">
@@ -140,7 +150,7 @@ export const UserServicesPage: React.FC = () => {
                                         <h3 className="text-xl sm:text-3xl font-medium text-blue-700">{plans[index].type}</h3>
                                         <p className="text-lg sm:text-xl">Meu consumo: <span className="font-semibold">{usedGB} GB</span></p>
                                         <p className="text-lg sm:text-xl">Disponível: <span className="font-semibold">{remainingPercentage} GB</span></p>
-                                        <p className="text-md text-gray-500 mt-2">Renova 20/01</p>
+                                        <p className="text-md text-gray-500 mt-2">Renova em: <span className="font-semibold">{renewalDate}</span></p>
                                     </div>
                                 </div>
                             </li>

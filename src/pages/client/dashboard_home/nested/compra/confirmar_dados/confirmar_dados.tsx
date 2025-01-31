@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getClientData, updateClientContract, postContract } from './api/confirmar_dados';
+import { getClientData, postContract } from './api/confirmar_dados'; 
 import { getPlanByIdRequest } from '../../planos/api/planos';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +16,7 @@ type Plan = {
 
 export const ConfirmCompra = () => {
   const [cartPlans, setCartPlans] = useState<Plan[]>([]);
+  const [clientId, setClientId] = useState<string | null>(null); // Armazenar o client_id
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -30,6 +31,9 @@ export const ConfirmCompra = () => {
           );
           setCartPlans(plansData);
         }
+
+        // Definindo o client_id
+        setClientId(data.client_id || null);  // Assumindo que 'client_id' está sendo retornado de getClientData
       } catch (err) {
         console.error('Erro ao carregar os dados do cliente', err);
       }
@@ -44,9 +48,17 @@ export const ConfirmCompra = () => {
 
   const handleConfirm = async () => {
     const startDate = getFormattedDate();
+
+    if (!clientId) {
+      setError('Não foi possível obter o ID do cliente.');
+      toast.error('Erro ao obter o ID do cliente!');
+      return;
+    }
+
     const contractData = {
       plan: cartPlans[0]?.type,
       start_date: startDate,
+      client: clientId, // Passando o ID do cliente
     };
 
     try {
