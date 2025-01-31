@@ -7,33 +7,33 @@ import styled from 'styled-components';
 
 export const menuItems = [
     {
+        label: 'Dashboard',
+        href: '/director/dashboard/ver-graficos',
+    },
+    {
         label: 'Planos',
-        icon: <House />,
         href: '/director/dashboard/planos-dir',
     },
     {
         label: 'Criar Planos',
-        icon: <User />,
         href: '/director/dashboard/criar-planos',
     },
 
     {
         label: 'Promoções',
-        icon: <Money />,
         href: '/director/dashboard/promocoes',
     },
 
     {
         label: 'Criar Promoções',
-        icon: <Calculator />,
         href: '/director/dashboard/criar-promocoes',
     },
 
     {
-        label: 'Histórico',
-        icon: <Clock />,
-        href: '/user/dashboard/history',
+        label: 'Página Inicial',
+        href: '/client/dashboard/',
     },
+
 ];
 
 const MenuStyles = styled.div`

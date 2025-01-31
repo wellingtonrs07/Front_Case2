@@ -16,6 +16,7 @@ import { DashboardDados } from './client/dashboard_dados/dashboard_dados.tsx';
 import{DirPromotionsList} from './director/dashboard/nested/promocoes/promocoes.tsx'
 import {DirPromotionsCreate} from './director/dashboard/nested/criar_promocoes/criar_promocoes.tsx'
 import { ClientLoginCompra } from "./client/auth/login/login_compra.tsx";
+import {PlanDistributionChart} from './director/dashboard/nested/ver_graficos/ver_graficos.tsx'
 
 
 const routes: RouteObject[] = [
@@ -108,7 +109,10 @@ const routes: RouteObject[] = [
                 id: "promocoes"},
                 {path: "criar-promocoes",
                 element: <DirPromotionsCreate />,
-                id: "criar-promocoes"}
+                id: "criar-promocoes"},
+                {path: "ver-graficos",
+                element: <PlanDistributionChart />,
+                id: "ver-graficos"}
             ]
             },
             {

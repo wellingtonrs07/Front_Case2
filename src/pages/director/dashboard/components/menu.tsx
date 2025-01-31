@@ -3,18 +3,18 @@ import styled from "styled-components";
 import { TrendUp } from "@phosphor-icons/react";
 import { SignOut } from '@phosphor-icons/react';
 import { toast } from "react-hot-toast";
+import logoImg from "/images/logo_correta.png"; // Importando a logo
 
 export const Menu = () => {
 
     return (
         <MenuStyles>
             <h1>
-                <TrendUp weight="bold" className="icon" />
-                <span>Fin Track</span>
+                {/* Logo */}
+                <Logo src={logoImg} alt="Logo" />
             </h1>
             {menuItems.map((item, index) => (
                 <a key={index} href={item.href}>
-                    {item.icon}
                     {item.label}
                 </a>
             ))}
@@ -22,11 +22,17 @@ export const Menu = () => {
     );
 };
 
+// Logo styled component
+const Logo = styled.img`
+    width: 150px;  // Ajuste o tamanho da logo conforme necessário
+    height: 30px;
+    margin-right: 15px;
+`;
+
 const MenuStyles = styled.div`
     grid-column: 1;
     grid-row: 1 / span 2;
     background-color: #ffff;
-    padding: 20px 30px;
     border-right: 1px solid #ddd;
     display: flex;
     flex-direction: column;
@@ -37,22 +43,12 @@ const MenuStyles = styled.div`
         margin-bottom: 25px;
         margin-left: 10px;
         font-weight: 650;
-        color: #ffffff;
+        color: #3c50e0;
         display: flex;
         align-items: center;
         gap: 15px;
+        
 
-        .icon {
-            font-size: 2.0rem;
-            color: #ffffff;
-            background-color: #3c50e0;
-            border-radius: 15%;
-            margin-top: 3px;
-            padding: 2px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
     }
 
     a { 
@@ -103,5 +99,4 @@ const MenuStyles = styled.div`
         }
     }
 `;
-
 

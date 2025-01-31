@@ -5,6 +5,7 @@ import {DirPlansList} from './nested/planos/planos.page'
 import{CreatePlanForm} from './nested/criar_planos/criar_planos'
 import{DirPromotionsList} from './nested/promocoes/promocoes'
 import {DirPromotionsCreate} from './nested/criar_promocoes/criar_promocoes'
+import {PlanDistributionChart} from './nested/ver_graficos/ver_graficos'
 
 export const DirectorDashboard = () => {
     return (
@@ -22,6 +23,9 @@ export const DirectorDashboard = () => {
                 </Routes>
                 <Routes>
                     <Route path="criar-promocoes" element={<DirPromotionsCreate />} />
+                </Routes>
+                <Routes>
+                    <Route path="ver-graficos" element={<PlanDistributionChart />} />
                 </Routes>
             </main>
         </DashboardStyles>

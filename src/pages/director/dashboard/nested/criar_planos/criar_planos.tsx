@@ -12,6 +12,7 @@ type Plan = {
   details: string[];
   price: number;
   public: string;
+  products: string[]; // Lista de produtos associados ao plano
 };
 
 export const CreatePlanForm: React.FC = () => {
@@ -22,7 +23,7 @@ export const CreatePlanForm: React.FC = () => {
     details: '',
     price: 0,
     public: 'B2B',
-    products: [],
+    products: '', // Campo opcional de produtos, armazenando como string
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -36,8 +37,9 @@ export const CreatePlanForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Converte o campo de 'details' para lista
+    // Converte os campos de 'details' e 'products' para listas
     const detailsList = planData.details.split(',').map((detail) => detail.trim());
+    const productsList = planData.products.split(',').map((product) => product.trim());
 
     try {
       const response = await postRequest('/director/create-plan', 'POST', {
@@ -47,7 +49,7 @@ export const CreatePlanForm: React.FC = () => {
         details: detailsList,
         price: planData.price,
         public: planData.public,
-        products: planData.products,
+        products: productsList, // Enviando a lista de produtos
       });
       
       console.log('Plano criado com sucesso:', response);
@@ -66,12 +68,12 @@ export const CreatePlanForm: React.FC = () => {
       // Resetar os campos após a criação
       setPlanData({
         title: '',
-        type: 'Telfonia Fixa',
+        type: 'Telefonia Fixa',
         speed: '',
         details: '',
         price: 0,
         public: 'B2B',
-        products: [],
+        products: '', // Limpar o campo de produtos
       });
     } catch (error) {
       console.error('Erro ao criar plano:', error);
@@ -160,6 +162,16 @@ export const CreatePlanForm: React.FC = () => {
           <option value="B2B">B2B</option>
           <option value="B2C">B2C</option>
         </SelectField>
+
+        <label htmlFor="products" className="block text-sm font-medium text-gray-700">Produtos (opcional)</label>
+        <InputField
+          type="text"
+          id="products"
+          name="products"
+          value={planData.products}
+          onChange={handleChange}
+          placeholder="Exemplo: Produto A, Produto B"
+        />
 
         <Button type="submit" className="mt-4 w-full">Criar Plano</Button>
       </form>
