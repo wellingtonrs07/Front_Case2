@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getClientData, postContract } from './api/confirmar_dados'; 
+import { getClientData, postContract } from './api/confirmar_dados';
 import { getPlanByIdRequest } from '../../planos/api/planos';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Definição do tipo para os dados do plano
 type Plan = {
+  _id: string;
   type: string;
   speed: string;
   detail: string[];
@@ -18,6 +19,7 @@ export const ConfirmCompra = () => {
   const [cartPlans, setCartPlans] = useState<Plan[]>([]);
   const [clientId, setClientId] = useState<string | null>(null); // Armazenar o client_id
   const [error, setError] = useState('');
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null); // Armazenar o planId selecionado
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,10 +32,13 @@ export const ConfirmCompra = () => {
             cartData.map(async (planId: string) => await getPlanByIdRequest(planId))
           );
           setCartPlans(plansData);
-        }
 
-        // Definindo o client_id
-        setClientId(data.client_id || null);  // Assumindo que 'client_id' está sendo retornado de getClientData
+          // Definindo o client_id
+          setClientId(data.client_id || null);  // Assumindo que 'client_id' está sendo retornado de getClientData
+
+          // Definir o planId do primeiro plano
+          setSelectedPlanId(cartData[0]); // Se você tem mais planos no carrinho, pode escolher um plano diferente
+        }
       } catch (err) {
         console.error('Erro ao carregar os dados do cliente', err);
       }
@@ -55,8 +60,14 @@ export const ConfirmCompra = () => {
       return;
     }
 
+    if (!selectedPlanId) {
+      setError('Não foi possível obter o ID do plano.');
+      toast.error('Erro ao obter o ID do plano!');
+      return;
+    }
+
     const contractData = {
-      plan: cartPlans[0]?.type,
+      plan: selectedPlanId, // Passando o planId do plano selecionado
       start_date: startDate,
       client: clientId, // Passando o ID do cliente
     };

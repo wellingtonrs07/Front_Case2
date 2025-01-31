@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'; // Importando Link do react-router-dom
 
 type Plan = {
     _id: string;
+    title: string;
     type: string;
     speed: string;
     details: string[];

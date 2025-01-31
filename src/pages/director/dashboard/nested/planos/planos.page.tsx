@@ -8,6 +8,7 @@ import { CreatePlanForm } from '../criar_planos/criar_planos'; // Seu formulári
 // Definindo o tipo para os dados do plano
 type Plan = {
     _id: string;
+    title: string;
     type: string;
     speed: string;
     details: string[];

@@ -6,6 +6,7 @@ import { Toaster, toast } from 'react-hot-toast'; // Importando o react-hot-toas
 // Definindo o tipo para os dados do plano
 type Plan = {
   _id: string;
+  title: string;
   type: string;
   speed: string;
   details: string[];
@@ -15,7 +16,8 @@ type Plan = {
 
 export const CreatePlanForm: React.FC = () => {
   const [planData, setPlanData] = useState({
-    type: 'Telfonia Fixa',
+    title: '',  // Adicionando o campo 'title'
+    type: 'Telefonia Fixa',
     speed: '',
     details: '',
     price: 0,
@@ -39,6 +41,7 @@ export const CreatePlanForm: React.FC = () => {
 
     try {
       const response = await postRequest('/director/create-plan', 'POST', {
+        title: planData.title, // Incluindo o 'title' no envio
         type: planData.type,
         speed: planData.speed,
         details: detailsList,
@@ -62,6 +65,7 @@ export const CreatePlanForm: React.FC = () => {
 
       // Resetar os campos após a criação
       setPlanData({
+        title: '',
         type: 'Telfonia Fixa',
         speed: '',
         details: '',
@@ -89,6 +93,17 @@ export const CreatePlanForm: React.FC = () => {
     <FormWrapper>
       <h2 className="text-center text-2xl font-semibold mb-6">Criar Novo Plano</h2>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="title" className="block text-sm font-medium text-gray-700">Título do Plano</label>
+        <InputField
+          type="text"
+          id="title"
+          name="title"
+          value={planData.title}
+          onChange={handleChange}
+          placeholder="Exemplo: Plano Super 100Mbps"
+          required
+        />
+
         <label htmlFor="type" className="block text-sm font-medium text-gray-700">Tipo de Plano</label>
         <SelectField
           id="type"
@@ -97,8 +112,8 @@ export const CreatePlanForm: React.FC = () => {
           onChange={handleChange}
           className="mb-4"
         >
-          <option value="Telfonia Fixa">Telfonia Fixa</option>
-          <option value="Banda">Banda</option>
+          <option value="Telefonia Fixa">Telefonia Fixa</option>
+          <option value="Banda Larga">Banda Larga</option>
           <option value="movel-5G">Móvel 5G</option>
           <option value="movel-4G">Móvel 4G</option>
         </SelectField>

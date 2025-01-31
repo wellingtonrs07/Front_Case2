@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Menu } from './components/menu';
 import {DirPlansList} from './nested/planos/planos.page'
 import{CreatePlanForm} from './nested/criar_planos/criar_planos'
+import{DirPromotionsList} from './nested/promocoes/promocoes'
+import {DirPromotionsCreate} from './nested/criar_promocoes/criar_promocoes'
 
 export const DirectorDashboard = () => {
     return (
@@ -14,6 +16,12 @@ export const DirectorDashboard = () => {
                 </Routes>
                 <Routes>
                     <Route path="criar-planos" element={<CreatePlanForm />} />
+                </Routes>
+                <Routes>
+                    <Route path="promocoes" element={<DirPromotionsList />} />
+                </Routes>
+                <Routes>
+                    <Route path="criar-promocoes" element={<DirPromotionsCreate />} />
                 </Routes>
             </main>
         </DashboardStyles>

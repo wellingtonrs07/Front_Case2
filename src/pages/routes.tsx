@@ -3,7 +3,7 @@ import { Dashboard } from './client/dashboard_home/dashboard_home.tsx';
 import {ConfirmCompra} from './client/dashboard_home/nested/compra/confirmar_dados/confirmar_dados.tsx'
 import { PlansList } from './client/dashboard_home/nested/planos/planos.page.tsx';
 import AboutUs from "./client/dashboard_home/nested/sobre_nos/sobre_nos.tsx";
-import { ClientLogin } from "./client/auth/login/login.tsx";
+import { ClientLogin_Data } from "./client/auth/login/login_dados.tsx";
 import { DirectorLogin } from "./director/auth/login.tsx";
 import { checkToken } from './client/auth/token/api/CheckToken.ts';
 import { Register } from './client/auth/register/register.tsx';
@@ -13,6 +13,9 @@ import { checkTokenDirector } from './director/auth/token/api/CheckToken.ts';
 import {CreatePlanForm} from './director/dashboard/nested/criar_planos/criar_planos.tsx'
 import {UserServicesPage} from './client/dashboard_dados/nested/meus_planos/meus_planos.tsx';
 import { DashboardDados } from './client/dashboard_dados/dashboard_dados.tsx';
+import{DirPromotionsList} from './director/dashboard/nested/promocoes/promocoes.tsx'
+import {DirPromotionsCreate} from './director/dashboard/nested/criar_promocoes/criar_promocoes.tsx'
+import { ClientLoginCompra } from "./client/auth/login/login_compra.tsx";
 
 
 const routes: RouteObject[] = [
@@ -23,9 +26,14 @@ const routes: RouteObject[] = [
           }
         },
       {
-        path: "client/auth/login",
-        element: <ClientLogin />,
-        id: "client-login",
+        path: "client/auth/login-data",
+        element: <ClientLogin_Data />,
+        id: "client-login-data",
+      },
+      {
+        path: "client/auth/login-compra",
+        element: <ClientLoginCompra />,
+        id: "client-login-compra",
       },
       {
         path: "director/auth/login",
@@ -65,7 +73,7 @@ const routes: RouteObject[] = [
                       await checkToken();
                       return null;
                     } catch (error) {
-                      return redirect('/client/auth/login');
+                      return redirect('/client/auth/login-compra');
                     }
                   },
             }
@@ -94,7 +102,13 @@ const routes: RouteObject[] = [
                 id: "planos-dir"},
                 {path: "criar-planos",
                 element: <CreatePlanForm />,
-                id: "criar-planos"}
+                id: "criar-planos"},
+                {path: "promocoes",
+                element: <DirPromotionsList />,
+                id: "promocoes"},
+                {path: "criar-promocoes",
+                element: <DirPromotionsCreate />,
+                id: "criar-promocoes"}
             ]
             },
             {
@@ -106,7 +120,7 @@ const routes: RouteObject[] = [
                       await checkToken();
                       return null;
                     } catch (error) {
-                      return redirect('/client/auth/login');
+                      return redirect('/client/auth/login-data');
                     }
                   },
                   children:[
