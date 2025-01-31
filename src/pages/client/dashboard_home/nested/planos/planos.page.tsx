@@ -53,7 +53,7 @@ export const PlansList: React.FC = () => {
             {/* Renderizando cada grupo de planos */}
             {Object.entries(groupedPlans).map(([type, plansGroup]) => (
                 <div key={type} className="w-full max-w-6xl p-6 mb-20">
-                    <h2 className="text-4xl font-bold text-blue-700 mb-16 text-center">{type}</h2>
+                    <h2 className="text-4xl font-bold text-blue-700 mb-16 text-center"></h2>
                     <div className="flex flex-col space-y-24">
                         {plansGroup.map((plan) => (
                             <div 
