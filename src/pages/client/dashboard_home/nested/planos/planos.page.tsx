@@ -58,6 +58,7 @@ export const PlansList: React.FC = () => {
                         {plansGroup.map((plan) => (
                             <div 
                                 key={plan._id} 
+                                id={plan.type} 
                                 className="flex flex-col md:flex-row items-center justify-between w-full p-12 rounded-2xl shadow-sm border border-gray-200 bg-white transition-all"
                             >
                                 {/* 🔹 Container das informações do plano */}
