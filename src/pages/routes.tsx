@@ -96,7 +96,7 @@ const routes: RouteObject[] = [
             children:[
                 {
                     index: true,
-                    loader: async () => redirect('/director/dashboard/planos-dir'), // Redireciona para "planos" ao acessar "client/dashboard"
+                    loader: async () => redirect('/director/dashboard/ver-graficos'), // Redireciona para "planos" ao acessar "client/dashboard"
                 },
                 {path: "planos-dir",
                 element: <DirPlansList />,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getPromotionsRequest, getPlanByIdRequest } from "@/pages/client/dashboard_home/nested/promocoes/api/promocoes";
 import fundo from "/images/fundo_novo.png";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Tipos para os dados da promoção e plano
@@ -106,10 +106,12 @@ export const PromotionsList: React.FC = () => {
               </ul>
             )}
 
-            {/* Botão de Contratação */}
-            <Button className="mt-6 w-full py-3 bg-white text-blue-700 text-lg font-bold rounded-lg hover:bg-gray-200 transition">
-              Contratar Agora
-            </Button>
+          <Link
+            to="/client/dashboard/compra/confirmar-dados"
+            className="mt-6 w-full py-3 bg-white text-blue-700 text-lg font-bold rounded-lg hover:bg-gray-100 transition-all flex justify-center items-center border-2 border-blue-700"
+          >
+            Assinar Agora
+          </Link>
           </Card>
         ))}
       </div>

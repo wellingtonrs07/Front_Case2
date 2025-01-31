@@ -92,17 +92,9 @@ const NavButton = styled.button`
   }
 `;
 
-// 🔹 Função para encontrar um elemento pelo texto e rolar até ele
-const scrollToText = (textToFind: string) => {
+const scrollToSection = (sectionId: string) => {
   setTimeout(() => {
-    const elements = document.querySelectorAll("h2, h3, p, span, div"); // Busca por textos em diferentes elementos
-    let targetElement: HTMLElement | null = null;
-
-    elements.forEach((el) => {
-      if (el.textContent?.trim() === textToFind) {
-        targetElement = el as HTMLElement;
-      }
-    });
+    const targetElement = document.getElementById(sectionId);
 
     if (targetElement) {
       window.scrollTo({
@@ -110,20 +102,19 @@ const scrollToText = (textToFind: string) => {
         behavior: "smooth",
       });
     }
-  }, 100); // 🔹 Pequeno delay para garantir que a página carregue antes de rolar
+  }, 100); // Pequeno delay para garantir que a página carregue antes de rolar
 };
 
 export function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 🔹 Função para tratar navegação e rolagem exata
-  const handleNavigation = (textToFind: string) => {
+  const handleNavigation = (sectionId: string) => {
     if (location.pathname === "/") {
-      scrollToText(textToFind);
+      scrollToSection(sectionId);
     } else {
       navigate("/");
-      setTimeout(() => scrollToText(textToFind), 500);
+      setTimeout(() => scrollToSection(sectionId), 500);
     }
   };
 
@@ -136,8 +127,8 @@ export function Header() {
 
       {/* Menu de Navegação */}
       <NavMenu>
-        <NavItem onClick={() => handleNavigation("Para Você")}>Para Você</NavItem>
-        <NavItem onClick={() => handleNavigation("Para Empresas")}>Para Empresas</NavItem>
+        <NavItem onClick={() => handleNavigation("para-voce")}>Para Você</NavItem>
+        <NavItem onClick={() => handleNavigation("para-empresas")}>Para Empresas</NavItem>
 
         <NavItem>
           <Link to="sobre-nos" style={{ textDecoration: 'none', color: 'inherit' }}>

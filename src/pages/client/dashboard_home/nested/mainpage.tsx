@@ -23,16 +23,6 @@ const MainPage: React.FC = () => {
                     </h3>
                     <PlansList filter="Para você" />
                 </div>
-
-                {/* 🔹 Espaço entre seções */}
-                <div className="w-full border-t border-gray-300 my-10"></div>
-
-                {/* 🔹 Seção de Planos "Para Empresas" */}
-                <div className="w-full max-w-6xl">
-                    <h3 id="para-empresas" className="text-3xl font-semibold text-blue-700 text-center mb-8"> Para Empresas
-                    </h3>
-                    <PlansList filter="Para empresas" />
-                </div>
             </section>
         </div>
     );

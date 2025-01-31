@@ -6,7 +6,7 @@ import { getContractByIdRequest, getPlanByIdRequest, getServicesRequest, getClie
 type Contract = {
     plan: string;
     client: string;
-    start_date: Date;
+    start_date: string;
     used: string;
 };
 
@@ -22,7 +22,7 @@ const removeGB = (value: string) => {
 };
 
 // Função para calcular a data de renovação
-const getRenewalDate = (startDate: Date): string => {
+const getRenewalDate = (startDate: string): string => {
     const renewalDate = new Date(startDate);
     renewalDate.setMonth(renewalDate.getMonth() + 1); // Aumenta 1 mês para simular renovação mensal
     return renewalDate.toLocaleDateString('pt-BR'); // Formato brasileiro de data (dd/mm/yyyy)
@@ -80,7 +80,7 @@ export const UserServicesPage: React.FC = () => {
         if (clientContracts.length > 0) {
             const fetchPlans = async () => {
                 try {
-                  console.log(clientContracts)
+                    console.log(clientContracts)
                     const planDetailsPromises = clientContracts.map((contract) =>
                         getPlanByIdRequest<Plan>(contract.plan)
                     );
@@ -125,9 +125,9 @@ export const UserServicesPage: React.FC = () => {
 
                         const usedGB = removeGB(contract.used);
                         const totalGB = removeGB(plans[index].speed);
-                        const usedPercentage = Math.round((usedGB / totalGB) * 100);
-                        const remainingPercentage = 100 - usedPercentage;
-
+                        const usedPercentage = (usedGB / totalGB) * 100; // Percentual de uso
+                        const remainingPercentage = 100 - usedPercentage; // Percentual restante
+                        const disp = totalGB - usedGB;
                         const renewalDate = getRenewalDate(contract.start_date); // Calculando a data de renovação
 
                         return (
@@ -143,7 +143,7 @@ export const UserServicesPage: React.FC = () => {
                                         />
                                         <CircularProgress
                                             variant="determinate"
-                                            value={usedPercentage}
+                                            value={usedPercentage} // Percentual de uso no gráfico
                                             size={220}
                                             thickness={6}
                                             sx={{ position: 'absolute', color: '#1E88E5' }}
@@ -157,7 +157,7 @@ export const UserServicesPage: React.FC = () => {
                                     <div className="flex flex-col text-lg sm:text-xl space-y-2 sm:space-y-4 mt-4 sm:mt-0">
                                         <h3 className="text-xl sm:text-3xl font-medium text-blue-700">{plans[index].type}</h3>
                                         <p className="text-lg sm:text-xl">Meu consumo: <span className="font-semibold">{usedGB} GB</span></p>
-                                        <p className="text-lg sm:text-xl">Disponível: <span className="font-semibold">{remainingPercentage} GB</span></p>
+                                        <p className="text-lg sm:text-xl">Disponível: <span className="font-semibold">{disp} GB</span></p>
                                         <p className="text-md text-gray-500 mt-2">Renova em: <span className="font-semibold">{renewalDate}</span></p>
                                     </div>
                                 </div>

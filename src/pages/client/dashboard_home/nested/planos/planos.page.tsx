@@ -88,96 +88,99 @@ export const PlansList: React.FC = () => {
       </h1>
 
       {Object.entries(categories).map(([category, categoryPlans]) =>
-        categoryPlans.length > 0 ? (
-          <div key={category} className="w-full max-w-5xl mb-12">
-            {category === "Para Empresas" && (
-              <h2 className="text-2xl font-bold text-blue-800 mb-6 text-center">Para Empresas</h2>
-            )}
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center border-b-2 pb-2">
-              {category}
-            </h3>
-
-            {/* Carrossel fixo */}
-            <div className="relative flex items-center justify-center w-full">
-              {categoryPlans.length > visibleCount && (
-                <button
-                  onClick={() => handleScroll("left", category, categoryPlans.length)}
-                  className={`absolute left-0 px-4 py-2 rounded-full shadow-md transition text-lg font-bold ${
-                    categoryIndexes[category] > 0
-                      ? "bg-gray-300 text-gray-700 hover:bg-gray-400"
-                      : "bg-gray-200 text-gray-400 cursor-default"
-                  }`}
-                  disabled={categoryIndexes[category] === 0}
-                >
-                  ‹
-                </button>
-              )}
-
-              <div className="w-full flex justify-center overflow-hidden">
-                <div className="flex space-x-6 w-[900px]">
-                  {visiblePlans(category, categoryPlans).map((plan) => (
-                    <div
-                      key={plan._id}
-                      className="flex flex-col w-[420px] h-[500px] p-8 rounded-xl shadow-md border border-gray-300 transition-all transform items-center text-center"
-                      style={{
-                        background: "#f8f9fa",
-                        color: "#333",
-                      }}
-                    >
-                      {/* Título do Plano */}
-                      <div className="text-center mb-4">
-                        <h4 className="text-xl font-semibold uppercase">{plan.title}</h4>
-                      </div>
-
-                      {/* Nome e Velocidade */}
-                      <div className="text-center mb-6">
-                        <h5 className="text-xl font-semibold uppercase">{plan.type}</h5>
-                        <p className="text-4xl font-extrabold mt-3">{plan.speed}</p>
-                        <p className="text-lg text-gray-600">Velocidade</p>
-                      </div>
-
-                      {/* Detalhes do plano - Centralizados */}
-                      <ul className="text-md text-gray-700 space-y-2 mb-4 flex flex-col items-center text-center">
-                        {plan.details.map((detail, i) => (
-                          <li key={i} className="font-medium">{detail}</li>
-                        ))}
-                      </ul>
-
-                      {/* Preço */}
-                      <div className="text-center mb-4">
-                        <p className="text-3xl font-extrabold">R$ {plan.price.toFixed(2)}</p>
-                        <p className="text-md text-gray-600">/ mês</p>
-                      </div>
-
-                      {/* Botão de Contratar */}
-                      <Link
-                        to="/client/dashboard/compra/confirmar-dados"
-                        className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all text-center"
-                      >
-                        Assinar Agora
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {categoryPlans.length > visibleCount && (
-                <button
-                  onClick={() => handleScroll("right", category, categoryPlans.length)}
-                  className={`absolute right-0 px-4 py-2 rounded-full shadow-md transition text-lg font-bold ${
-                    categoryIndexes[category] + visibleCount < categoryPlans.length
-                      ? "bg-gray-300 text-gray-700 hover:bg-gray-400"
-                      : "bg-gray-200 text-gray-400 cursor-default"
-                  }`}
-                  disabled={categoryIndexes[category] + visibleCount >= categoryPlans.length}
-                >
-                  ›
-                </button>
-              )}
-            </div>
-          </div>
-        ) : null
+  categoryPlans.length > 0 ? (
+    <div key={category} className="w-full max-w-5xl mb-12">
+      {/* Exibição do título 'Para Empresas' somente para a categoria de B2B */}
+      {category === "Para Empresas" ? (
+        <h1 id="para-empresas" className="text-4xl font-bold text-blue-800 mb-6 text-center">Para Empresas</h1>
+      ) : (
+        <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center border-b-2 pb-2">
+          {category}
+        </h3>
       )}
+
+      {/* Carrossel fixo */}
+      <div className="relative flex items-center justify-center w-full">
+        {categoryPlans.length > visibleCount && (
+          <button
+            onClick={() => handleScroll("left", category, categoryPlans.length)}
+            className={`absolute left-0 px-4 py-2 rounded-full shadow-md transition text-lg font-bold ${
+              categoryIndexes[category] > 0
+                ? "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                : "bg-gray-200 text-gray-400 cursor-default"
+            }`}
+            disabled={categoryIndexes[category] === 0}
+          >
+            ‹
+          </button>
+        )}
+
+        <div className="w-full flex justify-center overflow-hidden">
+          <div className="flex space-x-6 w-[900px]">
+            {visiblePlans(category, categoryPlans).map((plan) => (
+              <div
+                key={plan._id}
+                id={plan.type}
+                className="flex flex-col w-[420px] h-[500px] p-8 rounded-xl shadow-md border border-gray-300 transition-all transform items-center text-center"
+                style={{
+                  background: "#f8f9fa",
+                  color: "#333",
+                }}
+              >
+                {/* Título do Plano */}
+                <div className="text-center mb-4">
+                  <h4 className="text-xl font-semibold uppercase">{plan.title}</h4>
+                </div>
+
+                {/* Nome e Velocidade */}
+                <div className="text-center mb-6">
+                  <h5 className="text-xl font-semibold uppercase">{plan.type}</h5>
+                  <p className="text-4xl font-extrabold mt-3">{plan.speed}</p>
+                </div>
+
+                {/* Detalhes do plano - Centralizados */}
+                <ul className="text-md text-gray-700 space-y-2 mb-4 flex flex-col items-center text-center">
+                  {plan.details.map((detail, i) => (
+                    <li key={i} className="font-medium">{detail}</li>
+                  ))}
+                </ul>
+
+                {/* Preço */}
+                <div className="text-center mb-4">
+                  <p className="text-3xl font-extrabold">R$ {plan.price.toFixed(2)}</p>
+                  <p className="text-md text-gray-600">/ mês</p>
+                </div>
+
+                {/* Botão de Contratar */}
+                <Link
+                  to="/client/dashboard/compra/confirmar-dados"
+                  className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all text-center"
+                >
+                  Assinar Agora
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {categoryPlans.length > visibleCount && (
+          <button
+            onClick={() => handleScroll("right", category, categoryPlans.length)}
+            className={`absolute right-0 px-4 py-2 rounded-full shadow-md transition text-lg font-bold ${
+              categoryIndexes[category] + visibleCount < categoryPlans.length
+                ? "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                : "bg-gray-200 text-gray-400 cursor-default"
+            }`}
+            disabled={categoryIndexes[category] + visibleCount >= categoryPlans.length}
+          >
+            ›
+          </button>
+        )}
+      </div>
+    </div>
+  ) : null
+)}
+
     </div>
   );
 };

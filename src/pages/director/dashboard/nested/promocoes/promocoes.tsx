@@ -153,56 +153,9 @@ export const DirPromotionsList: React.FC = () => {
                     </PromotionCard>
                 ))}
             </PlansList>
-
-            {/* Formulário para criar uma nova promoção */}
-            <CreatePromotionForm onCreate={handleCreatePromotion} />
         </Container>
     );
 };
-
-// Componente para o formulário de criação de promoções
-const CreatePromotionForm = ({ onCreate }: { onCreate: (promotion: Promotion) => void }) => {
-    const [newPromotion, setNewPromotion] = useState<Promotion>({
-        _id: '',
-        description: '',
-        plan: [],
-        price: 0.0,
-        discount: ''
-    });
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        onCreate(newPromotion);
-        // Não fecha o formulário após o envio
-    };
-
-    return (
-        <Form onSubmit={handleSubmit}>
-            <h2>Criar Nova Promoção</h2>
-            <InputField
-                type="text"
-                placeholder="Descrição"
-                value={newPromotion.description}
-                onChange={(e) => setNewPromotion({ ...newPromotion, description: e.target.value })}
-            />
-            <InputField
-                type="number"
-                placeholder="Preço"
-                value={newPromotion.price}
-                onChange={(e) => setNewPromotion({ ...newPromotion, price: parseFloat(e.target.value) })}
-            />
-            <InputField
-                type="text"
-                placeholder="Desconto"
-                value={newPromotion.discount}
-                onChange={(e) => setNewPromotion({ ...newPromotion, discount: e.target.value })}
-            />
-            {/* Adicione um componente de seleção de planos conforme necessário */}
-            <button type="submit">Criar Promoção</button>
-        </Form>
-    );
-};
-
 // Styled Components
 const Container = styled.div`
     padding: 2rem;
